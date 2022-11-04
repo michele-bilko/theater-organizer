@@ -1,0 +1,22 @@
+{
+  "name": "theater-organizer",
+  "version": "1.0.0",
+  "description": "Costume and prop organizer for the theater department as BCA as part of Michele, Alessandro, and Brian's senior ATCS capstone",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/michele-bilko/theater-organizer.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/michele-bilko/theater-organizer/issues"
+  },
+  "homepage": "https://github.com/michele-bilko/theater-organizer#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
+}
