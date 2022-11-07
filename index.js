@@ -89,22 +89,40 @@ async function authorize() {
  * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
-async function listMajors(auth) {
+//^^ API's example
+
+/**
+ * Connected sheet to listCostumeOwners
+ * 
+ */
+async function listCostumeOwners(auth) {
   const sheets = google.sheets({version: 'v4', auth});
   const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
-    range: 'Class Data!A2:E',
+    //old example spreadsheet
+    //spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
+    spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
+    range: 'Costumes!A2:H',
   });
   const rows = res.data.values;
   if (!rows || rows.length === 0) {
     console.log('No data found.');
     return;
   }
-  console.log('Name, Major:');
+  console.log('Costume, Owner:');
   rows.forEach((row) => {
-    // Print columns A and E, which correspond to indices 0 and 4.
-    console.log(`${row[0]}, ${row[4]}`);
+    // Print columns A and F, which correspond to indices 0 and 5.
+    console.log(`${row[0]}, ${row[5]}`);
+    
+    console.log(`DUMPING DATA: 
+    Costume name: ${row[0]} 
+    Costume image: ${row[1]}
+    Rented?: ${row[2]}
+    Rentable?: ${row[3]}
+    Location: ${row[4]}
+    Who has it?: ${row[5]}
+    Associated production: ${row[6]}
+    Description: ${row[7]}`);
   });
 }
 
-authorize().then(listMajors).catch(console.error);
+authorize().then(listCostumeOwners).catch(console.error);
