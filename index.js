@@ -8,9 +8,7 @@ app.get('/', (req, res) => {        //get requests to the root ("/") will route 
                                                         //the .sendFile method needs the absolute path to the file, see: https://expressjs.com/en/4x/api.html#res.sendFile 
 });
 
-app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
-    console.log(`Now listening on port ${port}`); 
-});
+
 
 
 //EVERYTHING BELOW THIS COMMENT IS GOOGLE SHEETS RELATED STUFF
@@ -112,7 +110,7 @@ async function listCostumeOwners(auth) {
   rows.forEach((row) => {
     // Print columns A and F, which correspond to indices 0 and 5.
     console.log(`${row[0]}, ${row[5]}`);
-    
+
     console.log(`DUMPING DATA: 
     Costume name: ${row[0]} 
     Costume image: ${row[1]}
@@ -126,3 +124,7 @@ async function listCostumeOwners(auth) {
 }
 
 authorize().then(listCostumeOwners).catch(console.error);
+
+app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
+    console.log(`Now listening on port ${port}`); 
+});
