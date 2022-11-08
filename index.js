@@ -1,3 +1,6 @@
+//SHEET ID: 1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo
+
+
 const express = require('express'); //Import the express dependency
 const app = express();              //Instantiate an express app, the main work horse of this server
 const port = 5000;                  //Save the port number where your server will be listening
@@ -8,12 +11,25 @@ app.get('/', (req, res) => {        //get requests to the root ("/") will route 
                                                         //the .sendFile method needs the absolute path to the file, see: https://expressjs.com/en/4x/api.html#res.sendFile 
 });
 
+//medium post code
+// const Sheets = require("node-sheets").default;
+// const dotenv = require("dotenv");
+// dotenv.config();
+// (async () => {  try {
+//   const gs = new Sheets("1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo");
+//   await gs.authorizeApiKey(process.env.GOOGLE_SHEET_KEY);
+//   /**
+//   const table = await gs.tables("Class Data!A:F");
+//   console.log(table.headers);
+//   console.log(table.rows);
+//   */ 
+//   } catch (err) {    console.error(err);  }})();
+
+
 
 
 
 //EVERYTHING BELOW THIS COMMENT IS GOOGLE SHEETS RELATED STUFF
-//USING EXAMPLE SPREADHSEET, ALL WILL BE MODIFIED
-
 
 const fs = require('fs').promises;
 const path = require('path');
@@ -87,7 +103,7 @@ async function authorize() {
  * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
  * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
  */
-//^^ API's example
+//^^ API doc's example
 
 /**
  * Connected sheet to listCostumeOwners
