@@ -1,32 +1,45 @@
 //SHEET ID: 1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo
+//https://www.npmjs.com/package/google-spreadsheet
+//https://developers.google.com/sheets/api/quickstart/nodejs
+//medium post?
+//https://medium.com/geekculture/read-google-sheets-rows-in-node-js-6bb13956ee32
+//https://www.section.io/engineering-education/google-sheets-api-in-nodejs/ 
+//????!?!?!? maybe????
+//no!!!! that does not work!!
 
+const express = require('express'); 
+const app = express();              
+const port = 5000;
 
-const express = require('express'); //Import the express dependency
-const app = express();              //Instantiate an express app, the main work horse of this server
-const port = 5000;                  //Save the port number where your server will be listening
+// set the view engine to ejs
+app.set('view engine', 'ejs');
 
-//Idiomatic expression in express to route and respond to a client request
-app.get('/', (req, res) => {        //get requests to the root ("/") will route here
-    res.sendFile('index.html', {root: __dirname});      //server responds by sending the index.html file to the client's browser
-                                                        //the .sendFile method needs the absolute path to the file, see: https://expressjs.com/en/4x/api.html#res.sendFile 
+// use res.render to load up an ejs view file
+
+// index page
+app.get('/', function(req, res) {
+  var mascots = [
+    { name: 'Sammy', organization: "DigitalOcean", birth_year: 2012},
+    { name: 'Tux', organization: "Linux", birth_year: 1996},
+    { name: 'Moby Dock', organization: "Docker", birth_year: 2013}
+  ];
+  var tagline = "Look! This tagline works!";
+
+  res.render('pages/index', {
+    mascots: mascots,
+    tagline: tagline
+  });
 });
 
-//medium post code
-// const Sheets = require("node-sheets").default;
-// const dotenv = require("dotenv");
-// dotenv.config();
-// (async () => {  try {
-//   const gs = new Sheets("1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo");
-//   await gs.authorizeApiKey(process.env.GOOGLE_SHEET_KEY);
-//   /**
-//   const table = await gs.tables("Class Data!A:F");
-//   console.log(table.headers);
-//   console.log(table.rows);
-//   */ 
-//   } catch (err) {    console.error(err);  }})();
+// about page
+app.get('/about', function(req, res) {
+  res.render('pages/about');
+});               
 
-
-
+// app.get('/', (req, res) => {        //get requests to the root ("/") will route here
+//     res.sendFile('index.html', {root: __dirname});      //server responds by sending the index.html file to the client's browser
+//                                                         //the .sendFile method needs the absolute path to the file, see: https://expressjs.com/en/4x/api.html#res.sendFile 
+// });
 
 
 //EVERYTHING BELOW THIS COMMENT IS GOOGLE SHEETS RELATED STUFF
@@ -50,6 +63,7 @@ const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
  *
  * @return {Promise<OAuth2Client|null>}
  */
+
 async function loadSavedCredentialsIfExist() {
   try {
     const content = await fs.readFile(TOKEN_PATH);
@@ -99,21 +113,12 @@ async function authorize() {
 }
 
 /**
- * Prints the names and majors of students in a sample spreadsheet:
- * @see https://docs.google.com/spreadsheets/d/1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms/edit
- * @param {google.auth.OAuth2} auth The authenticated Google OAuth client.
- */
-//^^ API doc's example
-
-/**
  * Connected sheet to listCostumeOwners
  * 
  */
 async function listCostumeOwners(auth) {
   const sheets = google.sheets({version: 'v4', auth});
   const res = await sheets.spreadsheets.values.get({
-    //old example spreadsheet
-    //spreadsheetId: '1BxiMVs0XRA5nFMdKvBdBZjgmUUqptlbs74OgvE2upms',
     spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
     range: 'Costumes!A2:H',
   });
@@ -124,6 +129,7 @@ async function listCostumeOwners(auth) {
   }
   console.log('Costume, Owner:');
   rows.forEach((row) => {
+
     // Print columns A and F, which correspond to indices 0 and 5.
     console.log(`${row[0]}, ${row[5]}`);
 
@@ -140,7 +146,144 @@ async function listCostumeOwners(auth) {
 }
 
 authorize().then(listCostumeOwners).catch(console.error);
+//if token is "expired" delete token.json and run code again
 
-app.listen(port, () => {            //server starts listening for any attempts from a client to connect at port: {port}
+app.listen(port, () => { //port 5000 for the moment
     console.log(`Now listening on port ${port}`); 
 });
+
+
+
+
+
+
+
+
+
+// //NEW ATTEMPT
+// // inlcude express 
+// const express = require("express");
+// //googleapis
+// const { google } = require("googleapis");
+// //initilize express
+// const app = express();
+// //set app view engine
+// app.set("view engine", "ejs");
+
+// app.post("/", async (req, res) => {
+//     const { request, name } = req.body;
+// })
+
+// const auth = new google.auth.GoogleAuth({
+//     keyFile: "keys.json", //the key file
+//     //url to spreadsheets API
+//     scopes: "https://www.googleapis.com/auth/spreadsheets", 
+// });
+
+// //Auth client Object
+// const authClientObject = await auth.getClient();
+// //Google sheets instance
+// const googleSheetsInstance = google.sheets({ version: "v4", auth: authClientObject });
+// // spreadsheet id
+// const spreadsheetId = "1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo";
+// await googleSheetsInstance.spreadsheets.values.append({
+//     auth, //auth object
+//     spreadsheetId, //spreadsheet id
+//     range: "Sheet1!A:B", //sheet name and range of cells
+//     valueInputOption: "USER_ENTERED", // The information will be passed according to what the usere passes in as date, number or text
+//     resource: {
+//         values: [["Git followers tutorial", "Mia Roberts"]],
+//     },
+// });
+
+//  //Read from the spreadsheet
+//  const readData = await googleSheetsInstance.spreadsheets.values.get({
+//     auth, //auth object
+//     spreadsheetId, // spreadsheet id
+//     range: "Sheet1!A:A", //range of cells to read from.
+// })
+
+// //send the data read with the response
+// response.send(readData.data)
+
+
+// const port = 5000;
+// app.listen(port, ()=>{
+//     console.log(`server started on ${port}`)
+// });
+
+
+
+
+
+// //new NEW attempt
+
+// const express = require('express');
+// const {google} = require('googleapis');
+// const keys = require('./keys.json');
+
+// //initialize express
+// const app = express();
+// app.use(express.urlencoded({ extended: true }));
+
+// //set up template engine to render html files
+// app.set('view engine', 'ejs');
+// app.engine('html', require('ejs').renderFile);
+
+// // index route
+// app.get('/', (request, response) =>{
+//     response.render('index')
+// });
+
+// app.post('/',  async (request, response) =>{
+//     const {article, author} = request.body;
+//     const auth = new google.auth.GoogleAuth({
+//         keyFile: "keys.json", //the key file
+//         //url to spreadsheets API
+//         scopes: "https://www.googleapis.com/auth/spreadsheets", 
+//     });
+
+//     //Auth client Object
+//     const authClientObject = await auth.getClient();
+    
+//     //Google sheets instance
+//     const googleSheetsInstance = google.sheets({ version: "v4", auth: authClientObject });
+
+//     // spreadsheet id
+//     const spreadsheetId = "1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo";
+
+//     // Get metadata about spreadsheet
+//     const sheetInfo = await googleSheetsInstance.spreadsheets.get({
+//         auth,
+//         spreadsheetId,
+//     });
+
+//     //Read from the spreadsheet
+//     const readData = await googleSheetsInstance.spreadsheets.values.get({
+//         auth, //auth object
+//         spreadsheetId, // spreadsheet id
+//         range: "Sheet1!A:A", //range of cells to read from.
+//     });
+    
+
+//     //write data into the google sheets
+//     await googleSheetsInstance.spreadsheets.values.append({
+//         auth, //auth object
+//         spreadsheetId, //spreadsheet id
+//         range: "Sheet1!A:B", //sheet name and range of cells
+//         valueInputOption: "USER_ENTERED", // The information will be passed according to what the usere passes in as date, number or text
+//         resource: {
+//             values: [[article, author]]
+//         },
+//     });
+    
+//     response.send("Request submitted.!!")
+// });
+
+
+// const PORT = 5000;
+
+// //start server
+// const server = app.listen(PORT, () =>{
+//     console.log(`Server started on port localhost:${PORT}`);
+// });
