@@ -18,23 +18,42 @@ app.set('view engine', 'ejs');
 
 // index page
 app.get('/', function(req, res) {
-  var mascots = [
-    { name: 'Sammy', organization: "DigitalOcean", birth_year: 2012},
-    { name: 'Tux', organization: "Linux", birth_year: 1996},
-    { name: 'Moby Dock', organization: "Docker", birth_year: 2013}
-  ];
-  var tagline = "Look! This tagline works!";
+  var tagline1 = "Inventory of all costumes in the closet";
+  var tagline2 = "Inventory of all props in the closet";
 
   res.render('pages/index', {
-    mascots: mascots,
-    tagline: tagline
+    tagline1: tagline1,
+    tagline2: tagline2
   });
+  
 });
 
 // about page
 app.get('/about', function(req, res) {
-  res.render('pages/about');
-});               
+  var creators = [
+    { name: 'Michele', academy: "ATCS", grad_year: 2023, contact: 'micbil23@bergen.org'},
+    { name: 'Brian', academy: "ATCS", grad_year: 2023, contact: 'britoo23@bergen.org'},
+    { name: 'Alessandro', academy: "ATCS", grad_year: 2023, contact: 'alemar23@bergen.org'}
+  ];
+  var tagline = "Look! This tagline works!";
+
+  res.render('pages/about', {
+    creators: creators,
+    tagline: tagline
+  });
+});         
+
+app.get('/costumes', function(req, res){
+  res.render('pages/costumes');
+});
+
+app.get('/props', function(req, res){
+  res.render('pages/props');
+});
+
+app.get('/extra', function(req, res){
+  res.render('pages/extra');
+});
 
 // app.get('/', (req, res) => {        //get requests to the root ("/") will route here
 //     res.sendFile('index.html', {root: __dirname});      //server responds by sending the index.html file to the client's browser
@@ -151,139 +170,3 @@ authorize().then(listCostumeOwners).catch(console.error);
 app.listen(port, () => { //port 5000 for the moment
     console.log(`Now listening on port ${port}`); 
 });
-
-
-
-
-
-
-
-
-
-// //NEW ATTEMPT
-// // inlcude express 
-// const express = require("express");
-// //googleapis
-// const { google } = require("googleapis");
-// //initilize express
-// const app = express();
-// //set app view engine
-// app.set("view engine", "ejs");
-
-// app.post("/", async (req, res) => {
-//     const { request, name } = req.body;
-// })
-
-// const auth = new google.auth.GoogleAuth({
-//     keyFile: "keys.json", //the key file
-//     //url to spreadsheets API
-//     scopes: "https://www.googleapis.com/auth/spreadsheets", 
-// });
-
-// //Auth client Object
-// const authClientObject = await auth.getClient();
-// //Google sheets instance
-// const googleSheetsInstance = google.sheets({ version: "v4", auth: authClientObject });
-// // spreadsheet id
-// const spreadsheetId = "1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo";
-// await googleSheetsInstance.spreadsheets.values.append({
-//     auth, //auth object
-//     spreadsheetId, //spreadsheet id
-//     range: "Sheet1!A:B", //sheet name and range of cells
-//     valueInputOption: "USER_ENTERED", // The information will be passed according to what the usere passes in as date, number or text
-//     resource: {
-//         values: [["Git followers tutorial", "Mia Roberts"]],
-//     },
-// });
-
-//  //Read from the spreadsheet
-//  const readData = await googleSheetsInstance.spreadsheets.values.get({
-//     auth, //auth object
-//     spreadsheetId, // spreadsheet id
-//     range: "Sheet1!A:A", //range of cells to read from.
-// })
-
-// //send the data read with the response
-// response.send(readData.data)
-
-
-// const port = 5000;
-// app.listen(port, ()=>{
-//     console.log(`server started on ${port}`)
-// });
-
-
-
-
-
-// //new NEW attempt
-
-// const express = require('express');
-// const {google} = require('googleapis');
-// const keys = require('./keys.json');
-
-// //initialize express
-// const app = express();
-// app.use(express.urlencoded({ extended: true }));
-
-// //set up template engine to render html files
-// app.set('view engine', 'ejs');
-// app.engine('html', require('ejs').renderFile);
-
-// // index route
-// app.get('/', (request, response) =>{
-//     response.render('index')
-// });
-
-// app.post('/',  async (request, response) =>{
-//     const {article, author} = request.body;
-//     const auth = new google.auth.GoogleAuth({
-//         keyFile: "keys.json", //the key file
-//         //url to spreadsheets API
-//         scopes: "https://www.googleapis.com/auth/spreadsheets", 
-//     });
-
-//     //Auth client Object
-//     const authClientObject = await auth.getClient();
-    
-//     //Google sheets instance
-//     const googleSheetsInstance = google.sheets({ version: "v4", auth: authClientObject });
-
-//     // spreadsheet id
-//     const spreadsheetId = "1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo";
-
-//     // Get metadata about spreadsheet
-//     const sheetInfo = await googleSheetsInstance.spreadsheets.get({
-//         auth,
-//         spreadsheetId,
-//     });
-
-//     //Read from the spreadsheet
-//     const readData = await googleSheetsInstance.spreadsheets.values.get({
-//         auth, //auth object
-//         spreadsheetId, // spreadsheet id
-//         range: "Sheet1!A:A", //range of cells to read from.
-//     });
-    
-
-//     //write data into the google sheets
-//     await googleSheetsInstance.spreadsheets.values.append({
-//         auth, //auth object
-//         spreadsheetId, //spreadsheet id
-//         range: "Sheet1!A:B", //sheet name and range of cells
-//         valueInputOption: "USER_ENTERED", // The information will be passed according to what the usere passes in as date, number or text
-//         resource: {
-//             values: [[article, author]]
-//         },
-//     });
-    
-//     response.send("Request submitted.!!")
-// });
-
-
-// const PORT = 5000;
-
-// //start server
-// const server = app.listen(PORT, () =>{
-//     console.log(`Server started on port localhost:${PORT}`);
-// });

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <%- include('../partials/head'), {variant: 'compact'}; %>
+  <%- include('../partials/head'); %>
 </head>
 <body class="container">
 
@@ -10,20 +10,28 @@
 </header>
 
 <main>
-<div class="row">
-  <div class="col-sm-8">
-    <div class="jumbotron">
-      <h1>This is great</h1>
-      <p>Welcome to templating using EJS</p>
-    </div>
-  </div>
+  <div class="jumbotron">
+    <h1>BCA Theater Organizer</h1>
+    <p>Michele, Brian, Alessandro ATCS Capstone</p>
+    <!--variable usage 
+        (The EJS partial has access to all the same data as the parent view. 
+        But be careful. If you are referencing a variable in a partial, it 
+        needs to be defined in every view that uses the partial or it will throw an error.)-->
+    <h2>Creator Info</h2>
+    <p><%= tagline %></p>
 
-  <div class="col-sm-4">
-    <div class="well">
-      <h3>Look I'm A Sidebar!</h3>
-    </div>
+    <!--looping through each piece of data-->
+    <ul>
+        <% creators.forEach(function(creators) { %>
+          <li>
+            <strong><%= creators.name %></strong>
+             <%= creators.academy %>
+             <%= creators.grad_year %>, contact at
+             <%= creators.contact%>
+          </li>
+        <% }); %>
+      </ul>
   </div>
-</div>
 </main>
 
 <footer>

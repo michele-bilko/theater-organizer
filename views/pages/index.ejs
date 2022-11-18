@@ -12,24 +12,16 @@
 <main>
   <div class="jumbotron">
     <h1>BCA Theater Organizer</h1>
-    <p>Michele, Brian, Alessandro ATCS Capstone</p>
+    <p>Use the links below to find the costume and prop inventories</p>
     <!--variable usage 
         (The EJS partial has access to all the same data as the parent view. 
         But be careful. If you are referencing a variable in a partial, it 
         needs to be defined in every view that uses the partial or it will throw an error.)-->
-    <h2>Plumbing Project</h2>
-    <p><%= tagline %></p>
+    <h2>Costumes</h2>
+    <p><%= tagline1 %></p>
 
-    <!--looping through each piece of data-->
-    <ul>
-        <% mascots.forEach(function(mascot) { %>
-          <li>
-            <strong><%= mascot.name %></strong>
-            representing <%= mascot.organization %>,
-            born <%= mascot.birth_year %>
-          </li>
-        <% }); %>
-      </ul>
+    <h2>Props</h2>
+    <p><%= tagline2 %></p>
   </div>
 </main>
 
