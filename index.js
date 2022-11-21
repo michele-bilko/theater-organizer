@@ -14,8 +14,6 @@ const port = 5000;
 // set the view engine to ejs
 app.set('view engine', 'ejs');
 
-// use res.render to load up an ejs view file
-
 // index page
 app.get('/', function(req, res) {
   var tagline1 = "Inventory of all costumes in the closet";
@@ -43,6 +41,7 @@ app.get('/about', function(req, res) {
   });
 });         
 
+//costume and prop pages
 app.get('/costumes', function(req, res){
   res.render('pages/costumes');
 });
@@ -54,11 +53,6 @@ app.get('/props', function(req, res){
 app.get('/extra', function(req, res){
   res.render('pages/extra');
 });
-
-// app.get('/', (req, res) => {        //get requests to the root ("/") will route here
-//     res.sendFile('index.html', {root: __dirname});      //server responds by sending the index.html file to the client's browser
-//                                                         //the .sendFile method needs the absolute path to the file, see: https://expressjs.com/en/4x/api.html#res.sendFile 
-// });
 
 
 //EVERYTHING BELOW THIS COMMENT IS GOOGLE SHEETS RELATED STUFF
@@ -161,6 +155,34 @@ async function listCostumeOwners(auth) {
     Who has it?: ${row[5]}
     Associated production: ${row[6]}
     Description: ${row[7]}`);
+  });
+}
+
+async function loadCostumeData(auth) {
+  const sheets = google.sheets({version: 'v4', auth});
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
+    range: 'Costumes!A2:H',
+  });
+  const rows = res.data.values;
+  if (!rows || rows.length === 0) {
+    console.log('No data found.');
+    return;
+  }
+  rows.forEach((row) => {
+
+    // Print columns A and F, which correspond to indices 0 and 5.
+    // console.log(`${row[0]}, ${row[5]}`);
+
+    // console.log(`DUMPING DATA: 
+    // Costume name: ${row[0]} 
+    // Costume image: ${row[1]}
+    // Rented?: ${row[2]}
+    // Rentable?: ${row[3]}
+    // Location: ${row[4]}
+    // Who has it?: ${row[5]}
+    // Associated production: ${row[6]}
+    // Description: ${row[7]}`);
   });
 }
 
