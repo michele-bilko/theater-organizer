@@ -43,7 +43,12 @@ app.get('/about', function(req, res) {
 
 //costume and prop pages
 app.get('/costumes', function(req, res){
-  res.render('pages/costumes');
+  //call listCostumeOwners
+  rows = [{item: "headpiece", cost: "99"},{item: "shoes", cost: '20'}]
+  res.render('pages/costumes', {
+    costumes: rows
+  }
+  );
 });
 
 app.get('/props', function(req, res){
