@@ -42,14 +42,19 @@ app.get('/about', function(req, res) {
 });         
 
 //costume and prop pages
-app.get('/costumes', function(req, res){
-  //call listCostumeOwners
-  rows = [{item: "headpiece", cost: "99"},{item: "shoes", cost: '20'}]
+app.get('/costumes', async function(req, res){
+
+  var auth = await authorize();
+  
+  //call loadCostumeData
+  var rows = await loadCostumeData(auth);
+  console.log(rows);
   res.render('pages/costumes', {
-    costumes: rows
-  }
-  );
+    rows: rows
+  });
 });
+
+
 
 app.get('/props', function(req, res){
   res.render('pages/props');
@@ -57,6 +62,10 @@ app.get('/props', function(req, res){
 
 app.get('/extra', function(req, res){
   res.render('pages/extra');
+});
+
+app.get('/formsubmit', function(req, res){
+  res.render('pages/formsubmit');
 });
 
 
@@ -152,14 +161,14 @@ async function listCostumeOwners(auth) {
     console.log(`${row[0]}, ${row[5]}`);
 
     console.log(`DUMPING DATA: 
-    Costume name: ${row[0]} 
-    Costume image: ${row[1]}
-    Rented?: ${row[2]}
-    Rentable?: ${row[3]}
-    Location: ${row[4]}
-    Who has it?: ${row[5]}
-    Associated production: ${row[6]}
-    Description: ${row[7]}`);
+    Costume name: ${row[1]} 
+    Costume image: ${row[2]}
+    Rented?: ${row[3]}
+    Rentable?: ${row[4]}
+    Location: ${row[5]}
+    Who has it?: ${row[6]}
+    Associated production: ${row[7]}
+    Description: ${row[8]}`);
   });
 }
 
@@ -174,20 +183,29 @@ async function loadCostumeData(auth) {
     console.log('No data found.');
     return;
   }
+  //return rows;
+  var costumeRows = [];
+  rows.forEach((row) => {
+    costumeRows.push({costumeName: `${row[1]}`, isRented: `${row[2]}`, isRentable: `${row[3]}`});
+    //console.log(costumeRows[0]);
+  });
+  return costumeRows;
+}
+
+async function loadPropData(auth) {
+  const sheets = google.sheets({version: 'v4', auth});
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
+    range: 'Props!A2:H',
+  });
+  const rows = res.data.values;
+  if (!rows || rows.length === 0) {
+    console.log('No data found.');
+    return;
+  }
   rows.forEach((row) => {
 
-    // Print columns A and F, which correspond to indices 0 and 5.
-    // console.log(`${row[0]}, ${row[5]}`);
-
-    // console.log(`DUMPING DATA: 
-    // Costume name: ${row[0]} 
-    // Costume image: ${row[1]}
-    // Rented?: ${row[2]}
-    // Rentable?: ${row[3]}
-    // Location: ${row[4]}
-    // Who has it?: ${row[5]}
-    // Associated production: ${row[6]}
-    // Description: ${row[7]}`);
+    
   });
 }
 

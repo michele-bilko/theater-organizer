@@ -13,7 +13,21 @@
     <div class="jumbotron">
       <h1>Costumes</h1>
       <p>C</p>
-      <p> </p>
+
+
+
+      <ul>
+        <% rows.forEach(function(row) { %>
+          <li>
+            <strong><%= row.costumeName %></strong>
+             <%= row.isRented %>
+             <%= row.isRentable %>
+          </li>
+        <% }); %>
+      </ul>
+      
+      
+
     </div>
   </main>
 
@@ -23,3 +37,7 @@
 
 </body>
 </html>
+
+
+
+      
