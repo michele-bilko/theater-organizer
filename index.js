@@ -56,8 +56,16 @@ app.get('/costumes', async function(req, res){
 
 
 
-app.get('/props', function(req, res){
-  res.render('pages/props');
+app.get('/props', async function(req, res){
+
+  var auth = await authorize();
+  
+  //call loadCostumeData
+  var rows = await loadPropData(auth);
+  console.log(rows);
+  res.render('pages/props', {
+    rows: rows
+  });
 });
 
 app.get('/extra', function(req, res){
@@ -66,6 +74,10 @@ app.get('/extra', function(req, res){
 
 app.get('/formsubmit', function(req, res){
   res.render('pages/formsubmit');
+});
+
+app.get('/rent', function(req, res){
+  res.render('pages/rent');
 });
 
 
@@ -203,10 +215,13 @@ async function loadPropData(auth) {
     console.log('No data found.');
     return;
   }
+  //return rows;
+  var propRows = [];
   rows.forEach((row) => {
-
-    
+    propRows.push({propName: `${row[1]}`, isRented: `${row[2]}`, isRentable: `${row[3]}`});
+    //console.log(costumeRows[0]);
   });
+  return propRows;
 }
 
 authorize().then(listCostumeOwners).catch(console.error);
