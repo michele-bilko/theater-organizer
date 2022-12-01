@@ -12,7 +12,23 @@
 <main>
     <div class="jumbotron">
       <h1>Rent</h1>
-      <p>R</p>
+
+      <form action="rentform.php" method="POST">
+        <div>
+            <input type="email" placeholder="email@example.com" name="email" required />
+        </div>
+        <div>
+            <input type="text" placeholder="Subject" name="subject" required />
+        </div>
+        <div>
+            <textarea placeholder="Your message" name="body" required></textarea>
+        </div>
+        <div>
+            <button type="submit">Send a message</button>
+        </div>
+    </form>
+
+
     </div>
   </main>
 

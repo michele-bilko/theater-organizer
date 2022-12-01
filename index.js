@@ -55,7 +55,6 @@ app.get('/costumes', async function(req, res){
 });
 
 
-
 app.get('/props', async function(req, res){
 
   var auth = await authorize();
@@ -79,6 +78,8 @@ app.get('/formsubmit', function(req, res){
 app.get('/rent', function(req, res){
   res.render('pages/rent');
 });
+
+
 
 
 //EVERYTHING BELOW THIS COMMENT IS GOOGLE SHEETS RELATED STUFF
