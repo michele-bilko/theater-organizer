@@ -219,7 +219,7 @@ async function loadPropData(auth) {
   //return rows;
   var propRows = [];
   rows.forEach((row) => {
-    propRows.push({propName: `${row[1]}`, isRented: `${row[2]}`, isRentable: `${row[3]}`});
+    propRows.push({propName: `${row[1]}`, isRented: `${row[2]}`, isRentable: `${row[3]}`, propImage: `${row[4]}`});
     //console.log(costumeRows[0]);
   });
   return propRows;
