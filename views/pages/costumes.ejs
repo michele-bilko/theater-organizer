@@ -11,23 +11,44 @@
 
 <main>
     <div class="jumbotron">
-      <h1>Costumes</h1>
+      <h1 class= "display-4">Costumes</h1>
+      <hr class="my-4">
       <!-- <p>C</p> -->
 
 
 
-      <ul>
+      <!-- <ul>
         <% rows.forEach(function(row) { %>
           <li>
             <strong><%= row.costumeName %></strong>
              <%= row.isRented %>
              <%= row.isRentable %>
+             <%= row.costumeImage %>
              <p><a href ="/rent">Rent</a></p>
           </li>
         <% }); %>
-      </ul>
-      
-      
+      </ul> -->
+
+      <div class="card-deck">
+        <div class="card-columns">  
+        <% rows.forEach(function(row) { %>
+        <!-- <div class="col-sm-4"> -->
+            <div class="card border-dark mb-3" style="width: 20rem;">
+                <img class="card-img-top" iframe src="<%= row.costumeImage %>" alt="<%= row.costumeName %> image">
+                    <div class="card-body">
+                        <h5 class="card-title"><%= row.costumeName %></h5>
+                        <p class="card-text"><%= row.isRented %> <%= row.isRentable %></p>
+                        <a href="#" class="btn btn-primary">Rent</a>
+                    </div>
+                    <div class="card-footer">
+                        <small class="text-muted">Some info</small>
+                    </div>
+            </div>
+        <!-- </div> -->
+        <!-- https://drive.google.com/uc?id=13Yi-mHzbBju24flO6CIWsGz7a9dIFIfM -->
+        <% }); %>
+        </div>
+    </div>
 
     </div>
   </main>

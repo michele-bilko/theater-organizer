@@ -199,7 +199,7 @@ async function loadCostumeData(auth) {
   //return rows;
   var costumeRows = [];
   rows.forEach((row) => {
-    costumeRows.push({costumeName: `${row[1]}`, isRented: `${row[2]}`, isRentable: `${row[3]}`});
+    costumeRows.push({costumeName: `${row[1]}`, isRented: `${row[2]}`, isRentable: `${row[3]}`, costumeImage: `${row[4]}`});
     //console.log(costumeRows[0]);
   });
   return costumeRows;
