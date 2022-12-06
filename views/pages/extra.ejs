@@ -21,11 +21,31 @@
         target = "_top"
         method="POST" 
         action="https://script.google.com/macros/s/AKfycbwvjoAx71aQTNY1UhckdWdiTRllp8DcIcEiW57PnwnYsEMdN4kvH1EKWkim9T_4s2Y/exec">
-        <input name="Costume name" type="text" placeholder="Costume Name" required>
-        <input name="Rented?" type="text" placeholder="Rented?" required>
-        <input name="Rentable?" type="text" placeholder="Rentable?" required>
-        <input name="Costume image" type="text" placeholder="ENTER NULL" required>
-        <button type="submit">Send</button>
+          
+          <label for="Costume name">Costume name</label>
+          <input name="Costume name" type="text" placeholder="Costume Name" required>
+
+          <p>Is this costume rented?</p>
+          <input type="radio" id="rented" name="Rented?" value="y" required>
+          <label for="rented">Yes</label><br>
+          <input type="radio" id="notRented" name="Rented?" value="n" required>
+          <label for="rented">No</label><br>
+
+          <p>Is this costume rentable?</p>
+          <input type="radio" id="rentable" name="Rentable?" value="y" required>
+          <label for="rented">Yes</label><br>
+          <input type="radio" id="notRentable" name="Rentable?" value="n" required>
+          <label for="rented">No</label><br>
+
+          <label for="Costume image">Costume image</label>
+          <input name="Costume image" type="text" placeholder="Enter URL" required>
+          
+          <br>
+          <textarea name="Description" placeholder="Description of costume..." rows="4" cols="50"></textarea>
+          <br>
+          <textarea name="Tags" placeholder="List tags separated by a comma..." rows="4" cols="50"></textarea>
+          <br>
+          <button type="submit">Send</button>
         </form>
 
         <div id="successmsg" hidden>
@@ -103,7 +123,7 @@
         <input name="Prop name" type="text" placeholder="Prop Name" required>
         <input name="Rented?" type="text" placeholder="Rented?" required>
         <input name="Rentable?" type="text" placeholder="Rentable?" required>
-        <input name="Costume image" type="text" placeholder="ENTER NULL" required>
+        <input name="Costume image" type="text" placeholder="Enter URL" required>
         <button type="submit">Send</button>
         </form>
 

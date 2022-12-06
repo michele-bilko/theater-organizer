@@ -54,9 +54,17 @@ app.get('/costumes', async function(req, res){
   });
 });
 
+// app.get('/costumes/:id', async function(req, res){
+//   var id = req.params.id ;
+
+//   res.render('costumes', {
+//     //
+//   });
+// });
+
 
 app.get('/props', async function(req, res){
-
+  //req.params.id
   var auth = await authorize();
   
   //call loadCostumeData
@@ -156,34 +164,34 @@ async function authorize() {
  * Connected sheet to listCostumeOwners
  * 
  */
-async function listCostumeOwners(auth) {
-  const sheets = google.sheets({version: 'v4', auth});
-  const res = await sheets.spreadsheets.values.get({
-    spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-    range: 'Costumes!A2:H',
-  });
-  const rows = res.data.values;
-  if (!rows || rows.length === 0) {
-    console.log('No data found.');
-    return;
-  }
-  console.log('Costume, Owner:');
-  rows.forEach((row) => {
+// async function listCostumeOwners(auth) {
+//   const sheets = google.sheets({version: 'v4', auth});
+//   const res = await sheets.spreadsheets.values.get({
+//     spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
+//     range: 'Costumes!A2:H',
+//   });
+//   const rows = res.data.values;
+//   if (!rows || rows.length === 0) {
+//     console.log('No data found.');
+//     return;
+//   }
+//   console.log('Costume, Owner:');
+//   rows.forEach((row) => {
 
-    // Print columns A and F, which correspond to indices 0 and 5.
-    console.log(`${row[0]}, ${row[5]}`);
+//     // Print columns A and F, which correspond to indices 0 and 5.
+//     console.log(`${row[0]}, ${row[5]}`);
 
-    console.log(`DUMPING DATA: 
-    Costume name: ${row[1]} 
-    Costume image: ${row[2]}
-    Rented?: ${row[3]}
-    Rentable?: ${row[4]}
-    Location: ${row[5]}
-    Who has it?: ${row[6]}
-    Associated production: ${row[7]}
-    Description: ${row[8]}`);
-  });
-}
+//     console.log(`DUMPING DATA: 
+//     Costume name: ${row[1]} 
+//     Costume image: ${row[2]}
+//     Rented?: ${row[3]}
+//     Rentable?: ${row[4]}
+//     Location: ${row[5]}
+//     Who has it?: ${row[6]}
+//     Associated production: ${row[7]}
+//     Description: ${row[8]}`);
+//   });
+// }
 
 async function loadCostumeData(auth) {
   const sheets = google.sheets({version: 'v4', auth});
@@ -199,7 +207,9 @@ async function loadCostumeData(auth) {
   //return rows;
   var costumeRows = [];
   rows.forEach((row) => {
-    costumeRows.push({costumeName: `${row[1]}`, isRented: `${row[2]}`, isRentable: `${row[3]}`, costumeImage: `${row[4]}`});
+    costumeRows.push({costumeName: `${row[1]}`, 
+    isRented: `${row[2]}`, isRentable: `${row[3]}`, 
+    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`});
     //console.log(costumeRows[0]);
   });
   return costumeRows;
@@ -219,13 +229,15 @@ async function loadPropData(auth) {
   //return rows;
   var propRows = [];
   rows.forEach((row) => {
-    propRows.push({propName: `${row[1]}`, isRented: `${row[2]}`, isRentable: `${row[3]}`, propImage: `${row[4]}`});
+    propRows.push({propName: `${row[1]}`, 
+    isRented: `${row[2]}`, isRentable: `${row[3]}`, 
+    propImage: `${row[4]}`, propDescription: `${row[5]}`, propTags: `${row[6]}`});
     //console.log(costumeRows[0]);
   });
   return propRows;
 }
 
-authorize().then(listCostumeOwners).catch(console.error);
+// authorize().then(listCostumeOwners).catch(console.error);
 //if token is "expired" delete token.json and run code again
 
 app.listen(port, () => { //port 5000 for the moment
