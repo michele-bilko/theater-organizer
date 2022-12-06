@@ -36,50 +36,21 @@
             <div class="card border-dark mb-3" style="width: 20rem;">
                 <img class="card-img-top" src="<%= row.costumeImage %>" alt="<%= row.costumeName %> image">
                     <div class="card-body">
-                        <h5 class="card-title"><%= row.costumeName %> </h5>
-                          <div id = "rentableGreen" hidden>
-                            <h5><span class="badge badge-success">Rentable</span>
-                          </div>
-                          <div id = "rentableRed" hidden>
-                              <h5><span class="badge badge-danger">Rentable</span>
-                          </div>
-
-                          <div id = "rentedGreen" hidden>
-                              <span class="badge badge-success" hidden>Rented</span></h5>
-                          </div>
-                          <div id = "rentedRed" hidden>
-                            <span class="badge badge-danger" hidden>Rented</span></h5>
-                          </div>
-
-                          <script>
-                            const rentableGreen=document.getElementById('rentableGreen');
-                            const rentableRed=document.getElementById('rentableRed');
-                            const rentedGreen=document.getElementById('rentedGreen');
-                            const rentedRed=document.getElementById('rentedRed');
-                            const rentability = row.isRentable;
-                            const rentState = row.isRented;
-                            console.log(rentability);
-                            if(rentability.equals('y')){
-                              rentableGreen.hidden=false;
-                            }
-                            else{
-                              rentableRed.hidden=false;
-                            }
-                            if(rentState.equals('y')){
-                              rentedGreen.hidden=false;
-                            }
-                            else{
-                              rentedRed.hidden=false;
-                            }
-                          </script>
-
-                          <!-- Have badges change based on isRented and isRentable -->
+                        <h4 class="card-title"><%= row.costumeName %></h4>
+                    <!-- Have badges change based on isRented and isRentable -->
+                        <span class="badge badge-success" <% if(row.isRentable == 'n') { %> hidden <% } %>> Rentable</span>
+                        <span class="badge badge-danger" <% if(row.isRentable == 'y') { %> hidden <% } %>>Rentable</span>
+                        <span class="badge badge-success" <% if(row.isRented == 'n') { %> hidden <% } %>>Rented</span>
+                        <span class="badge badge-danger" <% if(row.isRented == 'y') { %> hidden <% } %>>Rented</span>
+                        
                         <p class="card-text">
+                          <br>
                           <%= row.costumeDescription%> 
-                          <!-- <%= row.isRented %> <%= row.isRentable %> -->
                         </p>
+
                         <a href="/rent" class="btn btn-primary">Rent</a>
                     </div>
+
                     <div class="card-footer">
                         <small class="text-muted">Some info</small>
                     </div>
