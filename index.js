@@ -1,15 +1,39 @@
 //SHEET ID: 1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo
-//https://www.npmjs.com/package/google-spreadsheet
-//https://developers.google.com/sheets/api/quickstart/nodejs
-//medium post?
-//https://medium.com/geekculture/read-google-sheets-rows-in-node-js-6bb13956ee32
-//https://www.section.io/engineering-education/google-sheets-api-in-nodejs/ 
-//????!?!?!? maybe????
-//no!!!! that does not work!!
 
+//require('dotenv').config()
+//require('dotenv').config({ path: require('find-config')('.env') })
 const express = require('express'); 
 const app = express();              
 const port = 5000;
+
+
+//To help keep your account secure, from May 30, 2022, ​​Google no longer supports the use of third-party apps or devices which ask you to sign in to your Google Account using only your username and password.
+// var nodemailer = require('nodemailer');
+// var transporter = nodemailer.createTransport({
+//   service: 'gmail',
+//   auth: {
+//     // user: process.env.EMAIL_USERNAME,
+//     // pass: process.env.EMAIL_PASSWORD
+//     user: 'bcatheaterrentals@gmail.com',
+//     pass: '%2YqjjVx0KCG74F&8TzLsYV^!j%DG1'
+//   }
+// });
+
+// var mailOptions = {
+//   //from: process.env.EMAIL_USERNAME,
+//   from: 'bcatheaterrentals@gmail.com',
+//   to: 'michelebilko@gmail.com',
+//   subject: 'Sending Email using Node.js',
+//   text: 'That was easy!'
+// };
+
+// transporter.sendMail(mailOptions, function(error, info){
+//   if (error) {
+//     console.log(error);
+//   } else {
+//     console.log('Email sent: ' + info.response);
+//   }
+// });
 
 // set the view engine to ejs
 app.set('view engine', 'ejs');

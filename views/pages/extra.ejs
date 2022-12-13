@@ -21,31 +21,42 @@
         target = "_top"
         method="POST" 
         action="https://script.google.com/macros/s/AKfycbwvjoAx71aQTNY1UhckdWdiTRllp8DcIcEiW57PnwnYsEMdN4kvH1EKWkim9T_4s2Y/exec">
-          
-          <label for="Costume name">Costume name</label>
-          <input name="Costume name" type="text" placeholder="Costume Name" required>
+          <div class="form-group">
+            <label for="Costume name">Costume name</label>
+            <input name="Costume name" class="form-control" type="text" placeholder="Costume Name" required>
+          </div>
+          <div class="form-group">
+            <p>Is this costume rented?</p>
+            <input type="radio" id="rented" name="Rented?" value="y" required>
+            <label for="rented">Yes</label><br>
+            <input type="radio" id="notRented" name="Rented?" value="n" required>
+            <label for="rented">No</label>
+          </div>
 
-          <p>Is this costume rented?</p>
-          <input type="radio" id="rented" name="Rented?" value="y" required>
-          <label for="rented">Yes</label><br>
-          <input type="radio" id="notRented" name="Rented?" value="n" required>
-          <label for="rented">No</label><br>
+          <div class="form-group">
+            <p>Is this costume rentable?</p>
+            <input type="radio" id="rentable" name="Rentable?" value="y" required>
+            <label for="rented">Yes</label><br>
+            <input type="radio" id="notRentable" name="Rentable?" value="n" required>
+            <label for="rented">No</label>
+          </div>
 
-          <p>Is this costume rentable?</p>
-          <input type="radio" id="rentable" name="Rentable?" value="y" required>
-          <label for="rented">Yes</label><br>
-          <input type="radio" id="notRentable" name="Rentable?" value="n" required>
-          <label for="rented">No</label><br>
+          <div class="form-group">
+            <label for="Costume image">Costume image</label>
+            <input name="Costume image" type="text" placeholder="Enter URL" class="form-control" required>
+          </div>
 
-          <label for="Costume image">Costume image</label>
-          <input name="Costume image" type="text" placeholder="Enter URL" required>
-          
-          <br>
-          <textarea name="Description" placeholder="Description of costume..." rows="4" cols="50"></textarea>
-          <br>
-          <textarea name="Tags" placeholder="List tags separated by a comma..." rows="4" cols="50"></textarea>
-          <br>
-          <button type="submit">Send</button>
+          <div class="form-group">
+            <label for="Description">Description of costume</label>
+            <textarea name="Description" placeholder="Description of costume..." rows="4" cols="50" class="form-control"></textarea>
+          </div>
+
+          <div class="form-group">
+            <label for="Tags">Tags</label>
+            <textarea name="Tags" placeholder="List tags separated by a comma..." rows="4" cols="50" class="form-control"></textarea>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Send</button>
         </form>
 
         <div id="successmsg" hidden>

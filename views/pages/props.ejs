@@ -33,7 +33,15 @@
                     <img class="card-img-top" src="<%= row.propImage %>" alt="<%= row.propName %> image">
                         <div class="card-body">
                             <h5 class="card-title"><%= row.propName %></h5>
-                            <p class="card-text"><%= row.isRented %> <%= row.isRentable %></p>
+                            <span class="badge badge-success" <% if(row.isRentable == 'n') { %> hidden <% } %>> Rentable</span>
+                            <span class="badge badge-danger" <% if(row.isRentable == 'y') { %> hidden <% } %>>Rentable</span>
+                            <span class="badge badge-success" <% if(row.isRented == 'n') { %> hidden <% } %>>Rented</span>
+                            <span class="badge badge-danger" <% if(row.isRented == 'y') { %> hidden <% } %>>Rented</span>
+                            
+                            <p class="card-text">
+                                <br>
+                                <%= row.propDescription%> 
+                              </p>
                             <a href="#" class="btn btn-primary">Rent</a>
                         </div>
                         <div class="card-footer">
