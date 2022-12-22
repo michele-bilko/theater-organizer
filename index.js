@@ -1,6 +1,6 @@
 //SHEET ID: 1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo
 
-//require('dotenv').config()
+require('dotenv').config();
 //require('dotenv').config({ path: require('find-config')('.env') })
 const express = require('express'); 
 const app = express();              
@@ -128,7 +128,7 @@ const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
 // created automatically when the authorization flow completes for the first
 // time.
 const TOKEN_PATH = path.join(process.cwd(), 'token.json');
-const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
+//const CREDENTIALS_PATH = path.join(process.cwd(), 'credentials.json');
 
 /**
  * Reads previously authorized credentials from the save file.
@@ -153,14 +153,20 @@ async function loadSavedCredentialsIfExist() {
  * @return {Promise<void>}
  */
 async function saveCredentials(client) {
-  const content = await fs.readFile(CREDENTIALS_PATH);
-  const keys = JSON.parse(content);
-  const key = keys.installed || keys.web;
+  // const content = await fs.readFile(CREDENTIALS_PATH);
+  // const keys = JSON.parse(content);
+  // const key = keys.installed || keys.web;
+
+  //credentials is used here
   const payload = JSON.stringify({
     type: 'authorized_user',
-    client_id: key.client_id,
-    client_secret: key.client_secret,
-    refresh_token: client.credentials.refresh_token,
+    // client_id: key.client_id,
+    // client_secret: key.client_secret,
+    // refresh_token: client.credentials.refresh_token,
+    client_id: process.env.CLIENT_ID,
+    client_secret: process.env.CLIENT_SECRET,
+    refresh_token: process.env.REFRESH_TOKEN,
+
   });
   await fs.writeFile(TOKEN_PATH, payload);
 }
