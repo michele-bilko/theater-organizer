@@ -82,21 +82,6 @@
     const form = document.forms['costume-form'];
     const successmsg=document.getElementById('successmsg');
     const errormsg=document.getElementById('errormsg');
-    // form.addEventListener('submit', e => {
-    //     e.preventDefault()
-    //     fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-    //     .then(response => console.log('Success!', response),
-    //     //show success message
-    //     successmsg.hidden=false
-        
-    //     )
-    //     .catch(error => errormsg.hidden=false)
-    //     //show error message
-        
-        
-    //     form.reset();
-        
-    // })
 
     setTimeout(form.addEventListener('submit', e => {
         e.preventDefault()
@@ -107,40 +92,102 @@
         )
         .catch(error => errormsg.hidden=false)
         //show error message
-        
-        
+  
         form.reset();
-        
-        
     }), 3000)
-    
-
-    // setTimeout(function() {
-    //         $(successmsg).fadeOut('slow');
-    //     }, 3000)
 
   </script>
 
-  <div class="col-sm-8">
-    <div class="jumbotron">
-      <h1>Prop Submission</h1>
-      <p>Login system will be implemented LATER!</p>
 
-      <!-- Difficulties with form down yonder-->
-      <form 
-        target = "_top"
-        method="POST" 
-        action="https://script.google.com/macros/s/AKfycbydYe9ODhmH8VDzYOvOxmnGPI9tzvNg7zkyQ-v5qHpSjXMaAzzPisUcH_5SGDWKGsG2/exec">
-        <input name="Prop name" type="text" placeholder="Prop Name" required>
-        <input name="Rented?" type="text" placeholder="Rented?" required>
-        <input name="Rentable?" type="text" placeholder="Rentable?" required>
-        <input name="Costume image" type="text" placeholder="Enter URL" required>
-        <button type="submit">Send</button>
-        </form>
+<!-- PROP FORM -->
 
+<div class="col-sm-8">
+  <div class="jumbotron">
+    <h1>Prop Submission</h1>
+    <p>Login system will be implemented LATER!</p>
 
-    </div>
+    <!--Action link needs to be changed-->
+    <form 
+      name = "prop-form"
+      target = "_top"
+      method="POST" 
+      action="https://script.google.com/macros/s/AKfycbwvjoAx71aQTNY1UhckdWdiTRllp8DcIcEiW57PnwnYsEMdN4kvH1EKWkim9T_4s2Y/exec">
+        <div class="form-group">
+          <label for="Prop name">Prop name</label>
+          <input name="Prop name" class="form-control" type="text" placeholder="Prop Name" required>
+        </div>
+        <div class="form-group">
+          <p>Is this prop rented?</p>
+          <input type="radio" id="rented" name="Rented?" value="y" required>
+          <label for="rented">Yes</label><br>
+          <input type="radio" id="notRented" name="Rented?" value="n" required>
+          <label for="rented">No</label>
+        </div>
+
+        <div class="form-group">
+          <p>Is this prop rentable?</p>
+          <input type="radio" id="rentable" name="Rentable?" value="y" required>
+          <label for="rented">Yes</label><br>
+          <input type="radio" id="notRentable" name="Rentable?" value="n" required>
+          <label for="rented">No</label>
+        </div>
+
+        <div class="form-group">
+          <label for="Prop image">Prop image</label>
+          <input name="Prop image" type="text" placeholder="Enter URL" class="form-control" required>
+        </div>
+
+        <div class="form-group">
+          <label for="Description">Description of prop</label>
+          <textarea name="Description" placeholder="Description of prop..." rows="4" cols="50" class="form-control"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label for="Tags">Tags</label>
+          <textarea name="Tags" placeholder="List tags separated by a comma..." rows="4" cols="50" class="form-control"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Send</button>
+      </form>
+
+      <div id="successmsg" hidden>
+          <div class="alert alert-success">
+              <strong>Success!</strong> The prop has been added.
+          </div>
+      </div>
+      
+      
+      <div id="errormsg" hidden>
+          <div class="alert alert-danger">
+              <strong>Error!</strong> There was an error adding your prop.
+          </div>
+      </div>
+
   </div>
+</div>
+
+
+
+<script>
+  const scriptURL = 'https://script.google.com/macros/s/AKfycbx6_sDjKzNxusoNtXFgvbOecrqS4ya3Wqzh0ONjvedQWp3JGlM9dcf8HSPRdygbOTe5/exec'
+  const form = document.forms['prop-form'];
+  const successmsg=document.getElementById('successmsg');
+  const errormsg=document.getElementById('errormsg');
+
+  setTimeout(form.addEventListener('submit', e => {
+      e.preventDefault()
+      fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+      .then(response => console.log('Success!', response),
+      //show success message
+      successmsg.hidden=false,
+      )
+      .catch(error => errormsg.hidden=false)
+      //show error message
+
+      form.reset();
+  }), 3000)
+
+</script>
 
   <div class="col-sm-4">
     <div class="well">
