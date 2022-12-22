@@ -11,19 +11,14 @@
 
 <main>
     <div class="jumbotron">
-    <h1 class= "display-4">Props</h1>
+      <nav class="navbar justify-content-between">
+        <h1 class= "display-4">Props</h1>
+      <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      </nav>
     <hr class="my-4">
-
-      <!-- <ul>
-        <% rows.forEach(function(row) { %>
-          <li>
-            <strong><%= row.propName %></strong>
-             <%= row.isRented %>
-             <%= row.isRentable %>
-             <p><a href ="/rent">Rent</a></p>
-          </li>
-        <% }); %>
-      </ul> -->
 
       <div class="card-deck">
             <div class="card-columns">  
@@ -48,8 +43,7 @@
                             <small class="text-muted">Some info</small>
                         </div>
                 </div>
-            <!-- </div> -->
-            <!-- https://drive.google.com/uc?id=13Yi-mHzbBju24flO6CIWsGz7a9dIFIfM -->
+
             <% }); %>
             </div>
         </div>
