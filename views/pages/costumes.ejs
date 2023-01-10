@@ -10,50 +10,48 @@
 </header>
 
 <main>
-    <div class="row">
-        <div class="jumbotron">
-          <nav class="navbar justify-content-between">
-            <h1 class= "display-4">Costumes</h1>
-          <form class="form-inline">
-              <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-              <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-          </form>
-          </nav>
-          <hr class="my-4">
-    
-          <div class="card-deck">
-            <div class="card-columns">  
-            <% rows.forEach(function(row) { %>
-            <!-- <div class="col-sm-4"> -->
-                <div class="card border-dark mb-3" style="width: 20rem;">
-                    <img class="card-img-top" src="<%= row.costumeImage %>" alt="<%= row.costumeName %> image">
-                        <div class="card-body">
-                            <h4 class="card-title"><%= row.costumeName %></h4>
-                        <!-- Have badges change based on isRented and isRentable -->
-                            <span class="badge badge-success" <% if(row.isRentable == 'n') { %> hidden <% } %>> Rentable</span>
-                            <span class="badge badge-danger" <% if(row.isRentable == 'y') { %> hidden <% } %>>Rentable</span>
-                            <span class="badge badge-success" <% if(row.isRented == 'n') { %> hidden <% } %>>Rented</span>
-                            <span class="badge badge-danger" <% if(row.isRented == 'y') { %> hidden <% } %>>Rented</span>
-                            
-                            <p class="card-text">
-                              <br>
-                              <%= row.costumeDescription%> 
-                            </p>
+    <div class="jumbotron">
+      <nav class="navbar justify-content-between">
+        <h1 class= "display-4">Costumes</h1>
+      <form class="form-inline">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+      </form>
+      </nav>
+      <hr class="my-4">
+ 
+      <div class="card-deck">
+        <div class="card-columns">  
+        <% rows.forEach(function(row) { %>
+        <!-- <div class="col-sm-4"> -->
+            <div class="card border-dark mb-3" style="width: 20rem;">
+                <img class="card-img-top" src="<%= row.costumeImage %>" alt="<%= row.costumeName %> image">
+                    <div class="card-body">
+                        <h4 class="card-title"><%= row.costumeName %></h4>
+                    <!-- Have badges change based on isRented and isRentable -->
+                        <span class="badge badge-success" <% if(row.isRentable == 'n') { %> hidden <% } %>> Rentable</span>
+                        <span class="badge badge-danger" <% if(row.isRentable == 'y') { %> hidden <% } %>>Rentable</span>
+                        <span class="badge badge-success" <% if(row.isRented == 'n') { %> hidden <% } %>>Rented</span>
+                        <span class="badge badge-danger" <% if(row.isRented == 'y') { %> hidden <% } %>>Rented</span>
+                        
+                        <p class="card-text">
+                          <br>
+                          <%= row.costumeDescription%> 
+                        </p>
 
-                            <a href="/rent" class="btn btn-primary">Rent</a>
-                        </div>
+                        <a href="/rent" class="btn btn-primary">Rent</a>
+                    </div>
 
-                        <div class="card-footer">
-                            <small class="text-muted">Some info</small>
-                        </div>
-                </div>
-            <!-- </div> -->
-            <!-- https://drive.google.com/uc?id=13Yi-mHzbBju24flO6CIWsGz7a9dIFIfM -->
-            <% }); %>
+                    <div class="card-footer">
+                        <small class="text-muted">Some info</small>
+                    </div>
             </div>
+        <!-- </div> -->
+        <!-- https://drive.google.com/uc?id=13Yi-mHzbBju24flO6CIWsGz7a9dIFIfM -->
+        <% }); %>
         </div>
+    </div>
 
-      </div>
     </div>
   </main>
 
