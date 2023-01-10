@@ -170,7 +170,7 @@ async function loadCostumeData(auth) {
   rows.forEach((row) => {
     costumeRows.push({costumeName: `${row[1]}`, 
     isRented: `${row[2]}`, isRentable: `${row[3]}`, 
-    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`});
+    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`});
   });
   return costumeRows;
 }
