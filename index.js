@@ -4,7 +4,7 @@
 //require('dotenv').config({ path: require('find-config')('.env') })
 const express = require('express'); 
 const app = express();              
-const port = 5000;
+const port = 8000;
 
 app.set('view engine', 'ejs');
 
@@ -170,7 +170,7 @@ async function loadCostumeData(auth) {
   rows.forEach((row) => {
     costumeRows.push({costumeName: `${row[1]}`, 
     isRented: `${row[2]}`, isRentable: `${row[3]}`, 
-    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`});
+    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`});
   });
   return costumeRows;
 }
