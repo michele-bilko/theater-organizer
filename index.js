@@ -170,9 +170,18 @@ async function loadCostumeData(auth) {
     return;
   }
   //return formatted rows;
+
+
+/**
+ * FOR ADDING PAGES/SPECIFYING ROWS OF COSTUMES
+ * 
+ */
+
   var costumeRows = [];
+  var itemCount = 0;
   rows.forEach((row) => {
-    costumeRows.push({costumeName: `${row[1]}`, 
+    itemCount++,
+    costumeRows.push({costumeNumber: itemCount, costumeName: `${row[1]}`, 
     isRented: `${row[2]}`, isRentable: `${row[3]}`, 
     costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`});
   });
