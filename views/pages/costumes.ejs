@@ -5,64 +5,58 @@
 </head>
 <body class="container">
 
-<header>
-  <%- include('../partials/header'); %>
-</header>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
 
-<main>
+  <main>
     <div class="jumbotron">
       <nav class="navbar justify-content-between">
         <h1 class= "display-4">Costumes</h1>
-      <form class="form-inline">
+        <form class="form-inline">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+        </form>
       </nav>
       <hr class="my-4">
- 
-      <!-- <div class="card-deck"> -->
-        <!-- <div class="card-columns">   -->
-        <div class="row row-cols-1 row-cols-md-3">
+
+
+      <div class="row row-cols-1 row-cols-md-3">
         <% rows.forEach(function(row) { %>
-        <!-- <div class="col-sm-4"> -->
-            <div class="col mb-4">
-            <div class="card h-100 border-dark mb-3" style="width: 20rem;">
-                <img class="card-img-top" src="<%= row.costumeImage %>" alt="<%= row.costumeName %> image">
-                    <div class="card-body">
-                        <h4 class="card-title"><%= row.costumeName %></h4>
-                    <!-- Have badges change based on isRented and isRentable -->
-                        <span class="badge badge-success" <% if(row.isRentable == 'n') { %> hidden <% } %>> Rentable</span>
-                        <span class="badge badge-danger" <% if(row.isRentable == 'y') { %> hidden <% } %>>Rentable</span>
-                        <span class="badge badge-success" <% if(row.isRented == 'n') { %> hidden <% } %>>Rented</span>
-                        <span class="badge badge-danger" <% if(row.isRented == 'y') { %> hidden <% } %>>Rented</span>
-                        
-                        <p class="card-text">
-                          <br>
-                          <%= row.costumeDescription%> 
-                        </p>
+        <div class="col mb-4">
+          <div class="card h-100 border-dark mb-3" style="width: 20rem;">
+            <img class="card-img-top" src="<%= row.costumeImage %>" alt="<%= row.costumeName %> image">
+            <div class="card-body">
+              <h4 class="card-title"><%= row.costumeName %></h4>
+              <!-- Have badges change based on isRented and isRentable -->
+              <span class="badge badge-success" <% if(row.isRentable == 'n') { %> hidden <% } %>> Rentable</span>
+              <span class="badge badge-danger" <% if(row.isRentable == 'y') { %> hidden <% } %>>Rentable</span>
+              <span class="badge badge-success" <% if(row.isRented == 'n') { %> hidden <% } %>>Rented</span>
+              <span class="badge badge-danger" <% if(row.isRented == 'y') { %> hidden <% } %>>Rented</span>
 
-                        <a href="/rent" class="btn btn-primary">Rent</a>
-                    </div>
+              <p class="card-text">
+                <br><%= row.costumeDescription%> 
+              </p>
 
-                    <!--Display tags-->
-                    <div class="card-footer">
-                        <span class="badge badge-info" <% if(row.costumeSize == 'undefined') { %> hidden <% } %>> <%=row.costumeSize %></span>
-                    
-                      </div>
+              <a href="/rent" class="btn btn-primary">Rent</a>
+            </div>
+
+            <!--Display tags-->
+            <div class="card-footer">
+              <span class="badge badge-info" <% if(row.costumeSize == 'undefined') { %> hidden <% } %>> <%=row.costumeSize %></span>
             </div>
           </div>
-        <!-- </div> -->
-        <!-- https://drive.google.com/uc?id=13Yi-mHzbBju24flO6CIWsGz7a9dIFIfM -->
-        <% }); %>
         </div>
-    <!-- </div> -->
-
+    <!-- https://drive.google.com/uc?id=13Yi-mHzbBju24flO6CIWsGz7a9dIFIfM -->
+    
+      <% }); %>
+    </div>
     </div>
   </main>
 
-<footer>
-  <%- include('../partials/footer'); %>
-</footer>
+  <footer>
+    <%- include('../partials/footer'); %>
+  </footer>
 
 </body>
 </html>

@@ -3,57 +3,58 @@
 <head>
   <%- include('../partials/head'), {variant: 'compact'}; %>
 </head>
+
 <body class="container">
 
-<header>
-  <%- include('../partials/header'); %>
-</header>
+  <header>
+    <%- include('../partials/header'); %>
+  </header>
 
-<main>
+  <main>
     <div class="jumbotron">
+
       <nav class="navbar justify-content-between">
         <h1 class= "display-4">Props</h1>
-      <form class="form-inline">
+        <form class="form-inline">
           <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
           <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-      </form>
+        </form>
       </nav>
+
     <hr class="my-4">
-
     <div class="row row-cols-1 row-cols-md-3">
-        <% rows.forEach(function(row) { %>
-        <!-- <div class="col-sm-4"> -->
-            <div class="col mb-4">
-            <div class="card h-100 border-dark mb-3" style="width: 20rem;">
-                    <img class="card-img-top" src="<%= row.propImage %>" alt="<%= row.propName %> image">
-                        <div class="card-body">
-                            <h5 class="card-title"><%= row.propName %></h5>
-                            <span class="badge badge-success" <% if(row.isRentable == 'n') { %> hidden <% } %>> Rentable</span>
-                            <span class="badge badge-danger" <% if(row.isRentable == 'y') { %> hidden <% } %>>Rentable</span>
-                            <span class="badge badge-success" <% if(row.isRented == 'n') { %> hidden <% } %>>Rented</span>
-                            <span class="badge badge-danger" <% if(row.isRented == 'y') { %> hidden <% } %>>Rented</span>
-                            
-                            <p class="card-text">
-                                <br>
-                                <%= row.propDescription%> 
-                              </p>
-                            <a href="#" class="btn btn-primary">Rent</a>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">Some info</small>
-                        </div>
-                </div>
+      <% rows.forEach(function(row) { %>
+        <div class="col mb-4">
+          <div class="card h-100 border-dark mb-3" style="width: 20rem;">
+            <img class="card-img-top" src="<%= row.propImage %>" alt="<%= row.propName %> image">
+              
+              <div class="card-body">
+                  <h5 class="card-title"><%= row.propName %></h5>
+                  <span class="badge badge-success" <% if(row.isRentable == 'n') { %> hidden <% } %>> Rentable</span>
+                  <span class="badge badge-danger" <% if(row.isRentable == 'y') { %> hidden <% } %>>Rentable</span>
+                  <span class="badge badge-success" <% if(row.isRented == 'n') { %> hidden <% } %>>Rented</span>
+                  <span class="badge badge-danger" <% if(row.isRented == 'y') { %> hidden <% } %>>Rented</span>
+                  <p class="card-text">
+                    <br><%= row.propDescription%> 
+                  </p>
+                  <a href="#" class="btn btn-primary">Rent</a>
+              </div>
 
-            <% }); %>
+              <div class="card-footer">
+                  <small class="text-muted">Some info</small>
               </div>
             </div>
-        </div>
+          </div>
+        <% }); %>
+      </div>
+    </div>
     </div>
   </main>
 
-<footer>
-  <%- include('../partials/footer'); %>
-</footer>
+  <footer>
+    <%- include('../partials/footer'); %>
+  </footer>
 
 </body>
+
 </html>
