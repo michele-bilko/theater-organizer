@@ -20,11 +20,11 @@
       </nav>
     <hr class="my-4">
 
-      <div class="card-deck">
-            <div class="card-columns">  
-            <% rows.forEach(function(row) { %>
-            <!-- <div class="col-sm-4"> -->
-                <div class="card border-dark mb-3" style="width: 20rem;">
+    <div class="row row-cols-1 row-cols-md-3">
+        <% rows.forEach(function(row) { %>
+        <!-- <div class="col-sm-4"> -->
+            <div class="col mb-4">
+            <div class="card h-100 border-dark mb-3" style="width: 20rem;">
                     <img class="card-img-top" src="<%= row.propImage %>" alt="<%= row.propName %> image">
                         <div class="card-body">
                             <h5 class="card-title"><%= row.propName %></h5>
@@ -45,6 +45,7 @@
                 </div>
 
             <% }); %>
+              </div>
             </div>
         </div>
     </div>
