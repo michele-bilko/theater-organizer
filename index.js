@@ -83,7 +83,7 @@ app.get('/rent', function(req, res){
 });
 
 app.get('/costume-expand', function(req, res){
-  res.render('pages/rent');
+  res.render('pages/costume-expand');
 });
 
 
