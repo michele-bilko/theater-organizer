@@ -51,9 +51,10 @@ app.get('/costumes', async function(req, res){
 //loading item cards for costumes
 // app.get('/costumes/:id', async function(req, res){
 //   var id = req.params.id ;
+//   var costume_row = await loadCostumeDataOneRow(auth id);
 
-//   res.render('costumes', {
-//     //
+//   res.render('pages/costume_detail', {
+//     costume_row: costume_row
 //   });
 // });
 
