@@ -1,41 +1,14 @@
 //SHEET ID: 1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo
 
-
+//require('dotenv').config()
 //require('dotenv').config({ path: require('find-config')('.env') })
 const express = require('express'); 
-const app = express();          
-require('dotenv').config();   
+const app = express();              
 const port = 8000;
-
-// Auth0
-const { auth } = require('express-openid-connect');
-
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: 'KJ6DIrWD8_z8wLbMPtrtDNs-9qi6KOXZEgsraV_nuM0qCu-jFGJJmH9TiSJdoHUV',
-  baseURL: 'http://localhost:8000',
-  clientID: 'qPSU60vdENFpUAs2s5duQ1CPqEZbhzqi',
-  issuerBaseURL: 'https://dev-2lr7o4xxm6vc88jn.us.auth0.com'
-};
-
-app.use(auth(config));
-
-
-/*app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
-});*/
-
-const { requiresAuth } = require('express-openid-connect');
-
-app.get('/profile', requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
-});
-
 
 app.set('view engine', 'ejs');
 
-// index pagenpm install express express-openid-connect --save
+// index page
 app.get('/', function(req, res) {
   var tagline1 = "Inventory of all costumes in the closet";
   var tagline2 = "Inventory of all props in the closet";
