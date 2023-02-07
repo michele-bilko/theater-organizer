@@ -13,10 +13,10 @@ const { auth } = require('express-openid-connect');
 const config = {
   authRequired: false,
   auth0Logout: true,
-  secret: 'KJ6DIrWD8_z8wLbMPtrtDNs-9qi6KOXZEgsraV_nuM0qCu-jFGJJmH9TiSJdoHUV',
+  secret: 'aK-4iIzA9ILTU8PWI19VxccvRJFlgTjYcQSnDtM7twSz4256T2HNEmjJSFdbdAJZ',
   baseURL: 'http://localhost:8000',
-  clientID: 'qPSU60vdENFpUAs2s5duQ1CPqEZbhzqi',
-  issuerBaseURL: 'https://dev-2lr7o4xxm6vc88jn.us.auth0.com'
+  clientID: 'H41WnQsvleM1XQBRfgxWb3AYWNoW6o2e',
+  issuerBaseURL: 'https://dev-3oyg3fo0dr72dp4k.us.auth0.com/'
 };
 
 app.use(auth(config));
