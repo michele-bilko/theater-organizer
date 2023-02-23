@@ -7,6 +7,7 @@ const app = express();
 const port = 8000;
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
+const session = require('express-session');
 
 const strategy = new Auth0Strategy({
     domain: 'dev-2lr7o4xxm6vc88jn.us.auth0.com',
@@ -27,10 +28,25 @@ app.get('/login', passport.authenticate('auth0'));
 app.get('/callback', passport.authenticate('auth0', { failureRedirect: '/login' }), function(req, res) {
   res.redirect('/index');
 });
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 app.get('/logout', function(req, res) {
   req.logout();
   res.redirect('/index');
 });
+app.use(session({
+  secret: 'JhvFpbgpTE0Q7KG2COpQvjBqhT-HxJQTbg2gozKWIDE-Wx7opK7tms5yy0No3Wjy',
+  resave: false,
+  saveUninitialized: false
+}));
+
+app.use(passport.initialize());
+
 
 function ensureAuthenticated(req, res, next) {
   const allowedEmails = ['alemar23@bergen.org', 'britoo23@bergen.org', 'micbil23@bergen.org'];
