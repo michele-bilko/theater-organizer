@@ -1,41 +1,53 @@
 //SHEET ID: 1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo
 
-
+//require('dotenv').config()
 //require('dotenv').config({ path: require('find-config')('.env') })
 const express = require('express'); 
-const app = express();          
-require('dotenv').config();   
+const app = express();              
 const port = 8000;
+const passport = require('passport');
+const Auth0Strategy = require('passport-auth0');
 
-// Auth0
-const { auth } = require('express-openid-connect');
+const strategy = new Auth0Strategy({
+    domain: 'dev-2lr7o4xxm6vc88jn.us.auth0.com',
+    clientID: '06zCwX9qd2fmBJbnL8MKXlEgwBN0q3S0',
+    clientSecret: 'JhvFpbgpTE0Q7KG2COpQvjBqhT-HxJQTbg2gozKWIDE-Wx7opK7tms5yy0No3Wjy',
+    callbackURL: 'http://localhost:8000/callback',
+    state: false
+  },
+  function(accessToken, refreshToken, extraParams, profile, done) {
+    return done(null, profile);
+  }
+);
 
-const config = {
-  authRequired: false,
-  auth0Logout: true,
-  secret: 'aK-4iIzA9ILTU8PWI19VxccvRJFlgTjYcQSnDtM7twSz4256T2HNEmjJSFdbdAJZ',
-  baseURL: 'http://localhost:8000',
-  clientID: 'H41WnQsvleM1XQBRfgxWb3AYWNoW6o2e',
-  issuerBaseURL: 'https://dev-3oyg3fo0dr72dp4k.us.auth0.com/'
-};
+passport.use(strategy);
+app.use(passport.initialize());
 
-app.use(auth(config));
+app.get('/login', passport.authenticate('auth0'));
+app.get('/callback', passport.authenticate('auth0', { failureRedirect: '/login' }), function(req, res) {
+  res.redirect('/index');
+});
+app.get('/logout', function(req, res) {
+  req.logout();
+  res.redirect('/index');
+});
 
+function ensureAuthenticated(req, res, next) {
+  const allowedEmails = ['alemar23@bergen.org', 'britoo23@bergen.org', 'micbil23@bergen.org'];
+  if (req.isAuthenticated() && allowedEmails.includes(req.user.email)) {
+    return next();  
+  }
+  res.redirect('/login');
+}
 
-/*app.get('/', (req, res) => {
-  res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
-});*/
-
-const { requiresAuth } = require('express-openid-connect');
-
-app.get('/profile', requiresAuth(), (req, res) => {
-  res.send(JSON.stringify(req.oidc.user));
+app.get('/formsubmit', ensureAuthenticated, function(req, res) {
+  res.send('You are authenticated!');
 });
 
 
 app.set('view engine', 'ejs');
 
-// index pagenpm install express express-openid-connect --save
+// index page
 app.get('/', function(req, res) {
   var tagline1 = "Inventory of all costumes in the closet";
   var tagline2 = "Inventory of all props in the closet";
