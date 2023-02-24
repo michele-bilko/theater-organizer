@@ -26,7 +26,7 @@ app.use(passport.initialize());
 
 app.get('/login', passport.authenticate('auth0'));
 app.get('/callback', passport.authenticate('auth0', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect('/index');
+  res.redirect('/');
 });
 passport.serializeUser(function(user, done) {
   done(null, user);
@@ -37,7 +37,7 @@ passport.deserializeUser(function(user, done) {
 });
 app.get('/logout', function(req, res) {
   req.logout();
-  res.redirect('/index');
+  res.redirect('/');
 });
 app.use(session({
   secret: 'JhvFpbgpTE0Q7KG2COpQvjBqhT-HxJQTbg2gozKWIDE-Wx7opK7tms5yy0No3Wjy',
