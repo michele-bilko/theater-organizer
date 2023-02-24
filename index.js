@@ -22,7 +22,7 @@ const config = {
   secret: 'JhvFpbgpTE0Q7KG2COpQvjBqhT-HxJQTbg2gozKWIDE-Wx7opK7tms5yy0No3Wjy'
 };
 
-const allowedEmails = ['alemar23@bergen.org', 'britoo23@bergen.org', 'micbil23@bergen.org'];
+const allowedEmails = ['alemar23@bergen.org', 'britoo23@bergen.org', 'micbil23@bergen.org', 'vicper@bergen.org', 'stekap@bergen.org'];
 
 
 function checkAdmin(req, res, next) {
