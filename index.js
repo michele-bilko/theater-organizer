@@ -8,57 +8,46 @@ const port = 8000;
 const passport = require('passport');
 const Auth0Strategy = require('passport-auth0');
 const session = require('express-session');
+const JwtStrategy = require('passport-jwt').Strategy;
+const ExtractJwt = require('passport-jwt').ExtractJwt;
 
-const strategy = new Auth0Strategy({
-    domain: 'dev-2lr7o4xxm6vc88jn.us.auth0.com',
-    clientID: '06zCwX9qd2fmBJbnL8MKXlEgwBN0q3S0',
-    clientSecret: 'JhvFpbgpTE0Q7KG2COpQvjBqhT-HxJQTbg2gozKWIDE-Wx7opK7tms5yy0No3Wjy',
-    callbackURL: 'http://localhost:8000/callback',
-    state: false
-  },
-  function(accessToken, refreshToken, extraParams, profile, done) {
-    return done(null, profile);
+const { auth } = require('express-openid-connect');
+
+const config = {
+  authRequired: false,
+  auth0Logout: true,
+  baseURL: 'http://localhost:8000',
+  clientID: '06zCwX9qd2fmBJbnL8MKXlEgwBN0q3S0',
+  issuerBaseURL: 'https://dev-2lr7o4xxm6vc88jn.us.auth0.com',
+  secret: 'JhvFpbgpTE0Q7KG2COpQvjBqhT-HxJQTbg2gozKWIDE-Wx7opK7tms5yy0No3Wjy'
+};
+
+const allowedEmails = ['alemar23@bergen.org', 'britoo23@bergen.org', 'micbil23@bergen.org'];
+
+
+function checkAdmin(req, res, next) {
+  const userEmail = req.oidc.user.email; 
+  if (allowedEmails.includes(userEmail)) {
+    next(); // User is allowed to access the route
+  } else {
+    res.send('Access denied'); // User is not allowed to access the route
   }
-);
-
-passport.use(strategy);
-app.use(passport.initialize());
-
-app.get('/login', passport.authenticate('auth0'));
-app.get('/callback', passport.authenticate('auth0', { failureRedirect: '/login' }), function(req, res) {
-  res.redirect('/index');
-});
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
-app.get('/logout', function(req, res) {
-  req.logout();
-  res.redirect('/index');
-});
-app.use(session({
-  secret: 'JhvFpbgpTE0Q7KG2COpQvjBqhT-HxJQTbg2gozKWIDE-Wx7opK7tms5yy0No3Wjy',
-  resave: false,
-  saveUninitialized: false
-}));
-
-app.use(passport.initialize());
-
-
-function ensureAuthenticated(req, res, next) {
-  const allowedEmails = ['alemar23@bergen.org', 'britoo23@bergen.org', 'micbil23@bergen.org'];
-  if (req.isAuthenticated() && allowedEmails.includes(req.user.email)) {
-    return next();  
-  }
-  res.redirect('/login');
 }
 
-app.get('/formsubmit', ensureAuthenticated, function(req, res) {
-  res.send('You are authenticated!');
+app.use(auth(config));
+
+// req.isAuthenticated is provided from the auth router
+//app.get('/', (req, res) => {
+  ////res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
+//});
+
+const { requiresAuth } = require('express-openid-connect');
+
+app.get('/profile', requiresAuth(), (req, res) => {
+  res.send(JSON.stringify(req.oidc.user));
 });
+
+app.get('/formsubmit', requiresAuth(), checkAdmin);
 
 
 app.set('view engine', 'ejs');
