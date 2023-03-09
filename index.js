@@ -36,6 +36,11 @@ function checkAdmin(req, res, next) {
 
 app.use(auth(config));
 
+app.use((req, res, next) => {
+  res.locals.user = req.oidc.user || null;
+  next();
+});
+
 // req.isAuthenticated is provided from the auth router
 //app.get('/', (req, res) => {
   ////res.send(req.oidc.isAuthenticated() ? 'Logged in' : 'Logged out')
@@ -45,6 +50,7 @@ const { requiresAuth } = require('express-openid-connect');
 
 app.get('/profile', requiresAuth(), (req, res) => {
   res.send(JSON.stringify(req.oidc.user));
+  user: req.oidc.user
 });
 
 app.get('/formsubmit', requiresAuth(), checkAdmin);
@@ -54,15 +60,25 @@ app.set('view engine', 'ejs');
 
 // index page
 app.get('/', function(req, res) {
+  //app.get('/theater-organizer/views/partials/header', function(req, res) {
+  //});
   var tagline1 = "Inventory of all costumes in the closet";
   var tagline2 = "Inventory of all props in the closet";
+  //user: req.user; // define the user variable as a local variable
 
   res.render('pages/index', {
     tagline1: tagline1,
-    tagline2: tagline2
+    tagline2: tagline2,
+    user: req.oidc.user
   });
+
+  
   
 });
+
+
+
+
 
 // about page
 app.get('/about', function(req, res) {
@@ -75,19 +91,20 @@ app.get('/about', function(req, res) {
 
   res.render('pages/about', {
     creators: creators,
-    tagline: tagline
+    tagline: tagline,
+    user: req.oidc.user
   });
 });         
 
 //costume and prop pages
 app.get('/costumes', async function(req, res){
-
   var auth = await authorize();
   
   //call loadCostumeData
   var rows = await loadCostumeData(auth);
   console.log(rows);
   res.render('pages/costumes', {
+    user: req.oidc.user,
     rows: rows
   });
 });
@@ -111,24 +128,27 @@ app.get('/props', async function(req, res){
   var rows = await loadPropData(auth);
   console.log(rows);
   res.render('pages/props', {
+    user: req.oidc.user,
     rows: rows
   });
 });
 
 app.get('/extra', function(req, res){
-  res.render('pages/extra');
+  res.render('pages/extra', {
+    user: req.oidc.user
+  });
 });
 
 app.get('/formsubmit', function(req, res){
-  res.render('pages/formsubmit');
+  res.render('pages/formsubmit', { user: req.oidc.user });
 });
 
 app.get('/rent', function(req, res){
-  res.render('pages/rent');
+  res.render('pages/rent', {user: req.oidc.user});
 });
 
 app.get('/costume-expand', function(req, res){
-  res.render('pages/costume-expand');
+  res.render('pages/costume-expand', {user: req.oidc.user});
 });
 
 
