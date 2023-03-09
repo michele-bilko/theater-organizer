@@ -47,8 +47,7 @@
         <nav>
           </li>
           <% if (user) { %>
-            <li class="nav-item d-none d-lg-block"><%= user.email %></li>
-            <li class=""><img class="rounded-circle" src="<%= user.picture %>" alt="Profile picture" width="50" height="50"></li>
+            <li class=""><img class="rounded-circle" src="<%=user.picture%>" alt="Profile picture" width="50" height="50"></li>
             <li class="col-sm-d-lg-block"><a href="/logout">Logout</a></li>
           <% } else { %>
             <li class="col-3"><a href="/login">Login</a></li>
