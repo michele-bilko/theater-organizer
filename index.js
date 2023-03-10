@@ -53,7 +53,7 @@ app.get('/profile', requiresAuth(), (req, res) => {
   user: req.oidc.user
 });
 
-app.get('/formsubmit', requiresAuth(), checkAdmin);
+app.get('/extra', requiresAuth(), checkAdmin);
 
 
 app.set('view engine', 'ejs');
