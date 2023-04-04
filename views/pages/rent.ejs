@@ -15,16 +15,16 @@
 
       <form action="rentform.php" method="POST">
         <div>
-            <input type="email" placeholder="email@example.com" name="email" required />
+            <input type="email" id = "email" placeholder="email@example.com" name="email" required />
         </div>
         <div>
-            <input type="text" placeholder="Subject" name="subject" required />
+            <input type="text" id = "subject" placeholder="Subject" name="subject" required />
         </div>
         <div>
-            <textarea placeholder="Your message" name="body" required></textarea>
+            <textarea placeholder="Your message" id = "message" name="body" required></textarea>
         </div>
         <div>
-            <button type="submit">Send a message</button>
+            <button type="submit" id = "btn">Send a message</button>
         </div>
     </form>
 
@@ -37,4 +37,25 @@
 </footer>
 
 </body>
+<script src="https://smtpjs.com/v3/smtp.js">
+</script>
+<script>
+  var btn = document.getElementById('btn');
+  btn.addEventListener('click', function(e){
+    e.preventDefault()
+    var email = document.getElementById('email').value
+    var subject = document.getElementById('subject').value
+    var message = document.getElementById('message').value
+      //7b945f6f-c4f1-42d1-ad72-43d1fe63f352
+      Email.send({
+        SecureToken : "7b945f6f-c4f1-42d1-ad72-43d1fe63f352",
+        To : 'micbil23@bergen.org', 
+        From : 'britoo23@bergen.org',
+        Subject :"Theater Closet Organizer: Rent Request (" + subject + ")",
+        Body : email + message 
+    }).then(
+  message => alert(message)
+);
+  })
+</script>
 </html>
