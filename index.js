@@ -101,13 +101,28 @@ app.get('/costumes', async function(req, res){
   var auth = await authorize();
   
   //call loadCostumeData
+  var costume = await getCostumeInfo(auth);
   var rows = await loadCostumeData(auth);
   console.log(rows);
   res.render('pages/costumes', {
     user: req.oidc.user,
-    rows: rows
+    rows: rows,
+    costume: costume
   });
 });
+
+app.get('/costumes/:id', async function(req, res) {
+  const auth = await authorize();
+  const id = req.params.id;
+  const costume = await getCostumeById(id, auth);
+  res.render('pages/costume_detail', { costume: costume, user: req.oidc.user });
+});
+
+async function getCostumeById(id, auth) {
+  const rows = await getCostumeInfo(auth);
+  const costume = rows.find(row => row.id === id);
+  return costume;
+}
 
 //loading item cards for costumes
 // app.get('/costumes/:id', async function(req, res){
@@ -222,14 +237,44 @@ async function authorize() {
   return client;
 }
 
+
+async function getCostumeInfo(auth) {
+  const sheets = google.sheets({version: 'v4', auth});
+  const res = await sheets.spreadsheets.values.get({
+    spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
+    range: 'Costumes!A2:I',
+  });
+  const rows = res.data.values;
+
+  const costumes = rows.map((row) => {
+    return {
+    id: row[8], costumeName: row[1], 
+    isRented: row[2], isRentable: row[3], 
+    costumeImage: row[4], costumeDescription: row[5], costumeTags: row[6], costumeSize: row[7]
+    };
+  });
+
+  return costumes
+}
+
 //loading costumes and props
 async function loadCostumeData(auth) {
   const sheets = google.sheets({version: 'v4', auth});
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-    range: 'Costumes!A2:H',
+    range: 'Costumes!A2:I',
   });
   const rows = res.data.values;
+
+  const costumes = rows.map((row) => {
+    return {
+    costumeName: `${row[1]}`, 
+    isRented: `${row[2]}`, isRentable: `${row[3]}`, 
+    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`, costumeId: `${row[8]}`  // column A
+      // add more properties as needed
+    };
+  });
+
   if (!rows || rows.length === 0) {
     console.log('No data found.');
     return;
@@ -248,7 +293,7 @@ async function loadCostumeData(auth) {
     itemCount++,
     costumeRows.push({costumeNumber: itemCount, costumeName: `${row[1]}`, 
     isRented: `${row[2]}`, isRentable: `${row[3]}`, 
-    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`});
+    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`, costumeId: `${row[8]}`});
   });
   return costumeRows;
 }
