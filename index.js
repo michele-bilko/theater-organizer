@@ -12,6 +12,9 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const { auth } = require('express-openid-connect');
+const methodOverride = require('method-override');
+
+app.use(methodOverride('_method'));
 
 const config = {
   authRequired: false,
@@ -28,9 +31,9 @@ const allowedEmails = ['alemar23@bergen.org', 'britoo23@bergen.org', 'micbil23@b
 function checkAdmin(req, res, next) {
   const userEmail = req.oidc.user.email; 
   if (allowedEmails.includes(userEmail)) {
-    next(); // User is allowed to access the route
+    next();
   } else {
-    res.send('Access denied'); // User is not allowed to access the route
+    res.send('Access denied');
   }
 }
 
@@ -122,6 +125,53 @@ async function getCostumeById(id, auth) {
   const rows = await getCostumeInfo(auth);
   const costume = rows.find(row => row.id === id);
   return costume;
+}
+
+app.post('/costumes/:id', async function(req, res) {
+  const id = req.params.id;
+  const auth = await authorize();
+  const sheets = google.sheets({ version: 'v4', auth });
+
+  const index = await getCostumeIndexById(id);
+
+  if (index !== -1) {
+    await sheets.spreadsheets.values.batchUpdate({
+      spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
+      resource: {
+        data: [
+          {
+            range: `Costumes!A${index}:Z${index}`,
+            values: [['']],
+            majorDimension: 'ROWS'
+          }
+        ],
+        valueInputOption: 'USER_ENTERED'
+      }
+    });
+  }
+
+  res.redirect('/costumes');
+});
+
+async function getCostumeIndexById(id) {
+  const auth = await authorize();
+  const sheets = google.sheets({ version: 'v4', auth });
+
+  const response = await sheets.spreadsheets.values.get({
+    spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
+    range: 'Costumes!A1:Z1000'
+  });
+
+  const rows = response.data.values || [];
+
+  for (let i = 0; i < rows.length; i++) {
+    const row = rows[i];
+    if (row[8] === id) {
+      return i + 1;
+    }
+  }
+
+  return -1; 
 }
 
 //loading item cards for costumes
