@@ -9,6 +9,27 @@
   <%- include('../partials/header'); %>
 </header>
 
+
+<style>
+  .color-box {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 4px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-gap: 5px;
+  }
+
+  .color-option {
+    display: flex;
+    align-items: center;
+  }
+
+  .color-option input {
+    margin-right: 5px;
+  }
+</style>
+
 <main>
 <div class="row">
   <div class="col-sm-8">
@@ -55,22 +76,178 @@
             <textarea name="Tags" placeholder="List tags separated by a comma..." rows="4" cols="50" class="form-control"></textarea>
           </div>
 
-          <!-- <div class="form-group">
-            <select class="form-control form-select" multiple data-mdb-placeholder="Costume Type" name="Color" multiple>
-              <option selected>Open this select menu</option>
-              <option value="Red">Red</option>
-              <option value="Orange">Orange</option>
-              <option value="Yellow">Yellow</option>
-              <option value="Green">Green</option>
-              <option value="Blue">Blue</option>
-              <option value="Purple">Purple</option>
-              <option value="Pink">Pink</option>
-              <option value="Brown">Brown</option>
-              <option value="White">White</option>
-              <option value="Black">Black</option>
-              <option value="Grey">Grey</option>
-            </select>
-          </div> -->
+
+          <div class="form-group">
+            <label for="Color">Color</label>
+            <div class="color-box">
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Black">
+                <label>Black</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Blue">
+                <label>Blue</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Brown">
+                <label>Brown</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Burgundy">
+                <label>Burgundy</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Clear/Transparent">
+                <label>Clear/Transparent</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Cream">
+                <label>Cream</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Gold">
+                <label>Gold</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Green">
+                <label>Green</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Gray">
+                <label>Gray</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Multicolor">
+                <label>Multicolor</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Orange">
+                <label>Orange</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Pink">
+                <label>Pink</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Purple">
+                <label>Purple</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Red">
+                <label>Red</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Silver">
+                <label>Silver</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Tan/Nude">
+                <label>Tan/Nude</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="Turquoise">
+                <label>Turquoise</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Color" value="White">
+                <label>White</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="CustomColor" id="customColorCheckbox">
+                <label for="customColorCheckbox"></label>
+                <input type="text" id="customColorInput" class="form-control" placeholder="" enabled>
+              </div>
+            </div>
+          </div>
+
+
+              
+          <div class="form-group">
+            <label for="Type">Costume Type</label>
+            <div class="color-box">
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Blouse">
+                <label>Blouse</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Coat">
+                <label>Coat</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Dress">
+                <label>Dress</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Apron">
+                <label>Apron</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Belt">
+                <label>Belt</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Bloomers">
+                <label>Bloomers</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Bodice">
+                <label>Bodice</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Bra">
+                <label>Bra</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Breeches / Knickers">
+                <label>Breeches / Knickers</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Cape">
+                <label>Cape</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Collar / Jabot">
+                <label>Collar / Jabot</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Crown / Tiara">
+                <label>Crown / Tiara</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Cuffs">
+                <label>Cuffs</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Cummerbund">
+                <label>Cummerbund</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Dance Dress / Leotard">
+                <label>Dance Dress / Leotard</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Frock Coats">
+                <label>Frock Coats</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Gloves - Leather">
+                <label>Gloves - Leather</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Gloves - Satin">
+                <label>Gloves - Satin</label>
+              </div>
+              <div class="color-option">
+                <input type="checkbox" name="Type" value="Custom">
+                <label for="customTypeCheckbox"></label>
+                <input type="text" id="customTypeInput" class="form-control" placeholder="" enabled>
+              </div>
+            </div>
+          </div>
+
+          
+
+
 
           <div class="form-group">
             <select class="form-control form-select" name="Size">
@@ -109,14 +286,42 @@
     const form = document.forms['costume-form'];
     const successmsg=document.getElementById('successmsg');
     const errormsg=document.getElementById('errormsg');
+    const customColorCheckbox = document.getElementById('customColorCheckbox');
+    const customColorInput = document.getElementById('customColorInput');
+    const customTypeCheckbox = document.querySelector('input[value="Custom"]');
+    const customTypeInput = document.getElementById('customTypeInput');
+
 
     setTimeout(form.addEventListener('submit', e => {
         e.preventDefault()
 
         const costumeId = generateUniqueId();
+        const colorInputs = form.querySelectorAll('input[name="Color"]:checked');
+        const selectedColors = Array.from(colorInputs).map(input => input.value);
+        const typeInputs = form.querySelectorAll('input[name="Type"]:checked');
+        const selectedTypes = Array.from(typeInputs).map(input => input.value);
+
+
+        if (customColorCheckbox.checked && customColorInput.value.trim() !== '') {
+          selectedColors.push(customColorInput.value.trim());
+        }
+
+        if (customTypeCheckbox.checked && customTypeInput.value.trim() !== '') {
+          selectedTypes.push(customTypeInput.value.trim());
+        }
+
+        
+
+        
+
 
         const formData = new FormData(form);
         formData.append('id', costumeId);
+        formData.set('Color', selectedColors.map(color => color.trim()).join(', '));
+        formData.set('Type', selectedTypes.join(', '));
+
+
+
 
 
 
@@ -131,12 +336,14 @@
         form.reset();
     }), 3000)
 
+    
+
 
     function generateUniqueId() {
-    const timestamp = Date.now().toString(36); // Use timestamp as part of the ID
-    const randomChars = Math.random().toString(36).substr(2, 5); // Generate random characters
-    return timestamp + randomChars;
-}
+      const timestamp = Date.now().toString(36); // Use timestamp as part of the ID
+      const randomChars = Math.random().toString(36).substr(2, 5); // Generate random characters
+      return timestamp + randomChars;
+    }
 
   </script>
 
@@ -214,6 +421,7 @@
   const form = document.forms['prop-form'];
   const successmsg=document.getElementById('successmsg');
   const errormsg=document.getElementById('errormsg');
+  
 
   setTimeout(form.addEventListener('submit', e => {
       e.preventDefault()
