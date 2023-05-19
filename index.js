@@ -80,7 +80,54 @@ app.get('/', function(req, res) {
 });
 
 
+const credentials = require('/Users/alessandromartinez/Documents/GitHub/theater-organizer/credentials.json');
+const sheetId = '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo';
 
+
+app.delete('/costumes/:id', async (req, res) => {
+  const costumeId = req.params.id;
+  
+  try {
+    // Authenticate with Google Sheets API
+    const auth = new google.auth.GoogleAuth({
+      credentials,
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    });
+  
+    // Create Google Sheets API client
+    const sheets = google.sheets({ version: 'v4', auth });
+  
+    // Get all rows from the sheet
+    const getRowsResponse = await sheets.spreadsheets.values.get({
+      spreadsheetId: sheetId,
+      range: 'Costumes', // Replace with the actual sheet name or range
+    });
+    const rows = getRowsResponse.data.values;
+  
+    // Find the row index with the matching costume ID
+    const rowIndex = rows.findIndex(row => row[0] === costumeId);
+  
+    if (rowIndex !== -1) {
+      // Set the entire row to blank
+      await sheets.spreadsheets.values.update({
+        spreadsheetId: sheetId,
+        range: `Costumes!A${rowIndex + 1}:AE${rowIndex + 1}`, // Replace with the actual sheet name or range
+        valueInputOption: 'RAW',
+        resource: { values: [[]] },
+      });
+  
+      // Successful deletion
+      res.sendStatus(200);
+    } else {
+      // Costume not found
+      res.sendStatus(404);
+    }
+  } catch (error) {
+    console.error('Error:', error);
+    // Show error message
+    res.sendStatus(500);
+  }
+});
 
 
 // about page

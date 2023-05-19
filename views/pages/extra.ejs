@@ -45,16 +45,10 @@
             <label for="Costume name">Costume name</label>
             <input name="Costume name" class="form-control" type="text" placeholder="Costume Name" required>
           </div>
-          <div class="form-group">
-            <p>Is this costume rented?</p>
-            <input type="radio" id="rented" name="Rented?" value="y" required>
-            <label for="rented">Yes</label><br>
-            <input type="radio" id="notRented" name="Rented?" value="n" required>
-            <label for="rented">No</label>
-          </div>
+          
 
           <div class="form-group">
-            <p>Is this costume rentable?</p>
+            <p>Is this costume available??</p>
             <input type="radio" id="rentable" name="Rentable?" value="y" required>
             <label for="rented">Yes</label><br>
             <input type="radio" id="notRentable" name="Rentable?" value="n" required>
@@ -585,7 +579,6 @@
         formData.set('Type', selectedTypes.join(', '));
         formData.set('Pattern', selectedPatterns.join(', '));
         formData.set('Hem', selectedHemLengths.map(hem => hem.trim()).join(', '));
-        formData.set('Location', selectedLocation);
         formData.set('Location', selectedLocation);
         formData.set('ChestM', chestMeasurementInput.value.trim());
         formData.set('NeckM', neckMeasurementInput.value.trim());
