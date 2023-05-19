@@ -140,7 +140,7 @@ app.post('/costumes/:id', async function(req, res) {
       resource: {
         data: [
           {
-            range: `Costumes!A${index}:Z${index}`,
+            range: `Costumes!A${index}:AE${index}`,
             values: [['']],
             majorDimension: 'ROWS'
           }
@@ -159,7 +159,7 @@ async function getCostumeIndexById(id) {
 
   const response = await sheets.spreadsheets.values.get({
     spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-    range: 'Costumes!A1:Z1000'
+    range: 'Costumes!A1:AE9999'
   });
 
   const rows = response.data.values || [];
@@ -226,7 +226,7 @@ const {authenticate} = require('@google-cloud/local-auth');
 const {google} = require('googleapis');
 
 // If modifying these scopes, delete token.json.
-const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
+const SCOPES = ['https://www.googleapis.com/auth/spreadsheets'];
 // The file token.json stores the user's access and refresh tokens, and is
 // created automatically when the authorization flow completes for the first
 // time.
@@ -292,7 +292,7 @@ async function getCostumeInfo(auth) {
   const sheets = google.sheets({version: 'v4', auth});
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-    range: 'Costumes!A2:I',
+    range: 'Costumes!A2:AE',
   });
   const rows = res.data.values;
 
@@ -312,7 +312,7 @@ async function loadCostumeData(auth) {
   const sheets = google.sheets({version: 'v4', auth});
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-    range: 'Costumes!A2:I',
+    range: 'Costumes!A2:AE',
   });
   const rows = res.data.values;
 
@@ -352,7 +352,7 @@ async function loadPropData(auth) {
   const sheets = google.sheets({version: 'v4', auth});
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-    range: 'Props!A2:H',
+    range: 'Props!A2:AE',
   });
   const rows = res.data.values;
   if (!rows || rows.length === 0) {

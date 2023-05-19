@@ -14,8 +14,6 @@
   <div class="col-sm-8">
     <div class="jumbotron">
       <h1>Costume Submission</h1>
-      <a href = "https://docs.google.com/spreadsheets/d/1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo/edit?pli=1#gid=0" target=”_blank” >
-        FORM ADDS DATA HERE (delete later)</a>
 
       <form 
         name = "costume-form"
@@ -114,7 +112,15 @@
 
     setTimeout(form.addEventListener('submit', e => {
         e.preventDefault()
-        fetch(scriptURL, { method: 'POST', body: new FormData(form)})
+
+        const costumeId = generateUniqueId();
+
+        const formData = new FormData(form);
+        formData.append('id', costumeId);
+
+
+
+        fetch(scriptURL, { method: 'POST', body: formData })
         .then(response => console.log('Success!', response),
         //show success message
         successmsg.hidden=false,
@@ -124,6 +130,13 @@
   
         form.reset();
     }), 3000)
+
+
+    function generateUniqueId() {
+    const timestamp = Date.now().toString(36); // Use timestamp as part of the ID
+    const randomChars = Math.random().toString(36).substr(2, 5); // Generate random characters
+    return timestamp + randomChars;
+}
 
   </script>
 
