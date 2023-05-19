@@ -300,7 +300,7 @@ async function getCostumeInfo(auth) {
     return {
     id: row[8], costumeName: row[1], 
     isRented: row[2], isRentable: row[3], 
-    costumeImage: row[4], costumeDescription: row[5], costumeTags: row[6], costumeSize: row[7]
+    costumeImage: row[4], costumeDescription: row[5], costumeTags: row[6], costumeSize: row[7], costumeColor: row[10], costumeLocation: row[11], costumePattern: row[16], costumeType: row[17], costumeHem: row[18], costumeChest: row[19], costumeNeck: row[20], costumeWaist: row[21], costumeSleeve: row[22], costumeInSeam: row[23], costumeFabric: row[26]
     };
   });
 
@@ -320,7 +320,7 @@ async function loadCostumeData(auth) {
     return {
     costumeName: `${row[1]}`, 
     isRented: `${row[2]}`, isRentable: `${row[3]}`, 
-    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`, costumeId: `${row[8]}`  // column A
+    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`, costumeId: `${row[8]}`, costumeColor: `${row[10]}`, costumeLocation: `${row[11]}`, costumePattern: `${row[16]}`, costumeType: `${row[17]}`, costumeHem: `${row[18]}`, costumeChest: `${row[19]}`, costumeNeck: `${row[20]}`, costumeWaist: `${row[21]}`, costumeSleeve: `${row[22]}`, costumeInSeam: `${row[23]}`, costumeFabric: `${row[26]}`  // column A
       // add more properties as needed
     };
   });
@@ -343,7 +343,7 @@ async function loadCostumeData(auth) {
     itemCount++,
     costumeRows.push({costumeNumber: itemCount, costumeName: `${row[1]}`, 
     isRented: `${row[2]}`, isRentable: `${row[3]}`, 
-    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`, costumeId: `${row[8]}`});
+    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`, costumeId: `${row[8]}`, costumeColor: `${row[10]}`, costumeLocation: `${row[11]}`, costumePattern: `${row[16]}`, costumeType: `${row[17]}`, costumeHem: `${row[18]}`, costumeChest: `${row[19]}`, costumeNeck: `${row[20]}`, costumeWaist: `${row[21]}`, costumeSleeve: `${row[22]}`, costumeInSeam: `${row[23]}`, costumeFabric: `${row[26]}`});
   });
   return costumeRows;
 }

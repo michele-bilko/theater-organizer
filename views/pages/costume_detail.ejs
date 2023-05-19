@@ -10,31 +10,45 @@
 </header>
 
 <main>
-    <div class="container-md bg-light">
-        <div class="row">
-            <div class="col-lg-6">
-              <img src="<%=costume.costumeImage%>" class="img-fluid" alt="image">
+  <div class="container-md bg-light">
+      <div class="row">
+          <div class="col-lg-6">
+            <img src="<%=costume.costumeImage%>" class="img-fluid" alt="image">
+          </div>
+      
+          <div class="col-lg-6">
+            <div class="container-fluid">
+              <h1><%=costume.costumeName%></h1>
+              <form action="/costumes/<%= costume.id %>" method="POST" id="deleteForm">
+                <input type="hidden" name="_method" value="DELETE">
+                <button type="submit">Delete Costume</button>
+              </form>
+              <h5 style="height:170px"><%=costume.costumeDescription%></h5>
+              <a class="btn btn-primary btn-block align-bottom" href="rent">Rent</a>
             </div>
-        
-            <div class="col-lg-6">
-              <div class="container-fluid">
-                <h1><%=costume.costumeName%></h1>
-                <form action="/costumes/<%= costume.id %>" method="POST" id="deleteForm">
-                  <input type="hidden" name="_method" value="DELETE">
-                  <button type="submit">Delete Costume</button>
-                </form>
-                <h5 style="height:170px"><%=costume.costumeDescription%></h5>
-                <a class="btn btn-primary btn-block align-bottom" href="rent">Rent</a>
+          </div>
+
+          <!-- Display color-boxes -->
+          <div class="col-lg-6">
+            <div class="container-fluid">
+              <div class="color-box">
+                <h3>Costume Details</h3>
+                <p>Color: <%= costume.costumeColor %></p>
+                <p>Location: <%= costume.costumeLocation %></p>
+                <p>Pattern: <%= costume.costumePattern %></p>
+                <p>Type: <%= costume.costumeType %></p>
+                <p>Hem: <%= costume.costumeHem %></p>
+                <p>Chest Measurement: <%= costume.costumeChest %></p>
+                <p>Neck Measurement: <%= costume.costumeNeck %></p>
+                <p>Waist Measurement: <%= costume.costumeWaist %></p>
+                <p>Sleeve Measurement: <%= costume.costumeSleeve %></p>
+                <p>In-seam Measurement: <%= costume.costumeInSeam %></p>
+                <p>Fabric: <%= costume.costumeFabric %></p>
               </div>
             </div>
-
-            
-
-           
-        </div>
-    </div>
-
-    
+          </div>
+      </div>
+  </div>
 </main>
 
 <footer>
