@@ -73,7 +73,10 @@
 
   <div class="col-lg-3">
     <button id="editButton" class="btn btn-success btn-block align-bottom" onclick="toggleForm()">Edit Costume</button>
-    <button id="deleteButton" class="btn btn-danger btn-block align-bottom">Delete Costume</button>
+    <form method="POST" action="/costumes/<%= costume.id %>?_method=DELETE">
+      <input type="hidden" name="_method" value="DELETE">
+      <button type="submit" id="deleteButton" class="btn btn-danger btn-block align-bottom">Delete Costume</button> 
+    </form>
   </div>
 
 
@@ -547,19 +550,6 @@
 
 
   const costumeId = '<%= costume.id %>';
-  const deleteButton = document.getElementById('deleteButton');
-  deleteButton.addEventListener('click', () => {
-    // Send request to delete the costume
-    fetch(`/costumes/${costumeId}`, { method: 'DELETE' })
-      .then(response => {
-        console.log('Success!', response);
-        // Show success message or redirect to a new page
-      })
-      .catch(error => {
-        console.error('Error:', error);
-        // Show error message
-      });
-  });
 
 
 

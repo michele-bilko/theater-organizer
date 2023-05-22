@@ -84,34 +84,32 @@ const credentials = require('/Users/alessandromartinez/Documents/GitHub/theater-
 const sheetId = '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo';
 
 
-app.delete('/costumes/:id', async (req, res) => {
-  const costumeId = req.params.id;
+app.delete('/costumes/:costumeid', async (req, res) => {
+  const costumeId = req.params.costumeid;
+  console.log(costumeId);
   
   try {
     // Authenticate with Google Sheets API
-    const auth = new google.auth.GoogleAuth({
-      credentials,
-      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
-    });
+    const auth = await authorize();
   
     // Create Google Sheets API client
     const sheets = google.sheets({ version: 'v4', auth });
   
     // Get all rows from the sheet
     const getRowsResponse = await sheets.spreadsheets.values.get({
-      spreadsheetId: sheetId,
-      range: 'Costumes', // Replace with the actual sheet name or range
+      spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
+      range: 'Costumes', 
     });
     const rows = getRowsResponse.data.values;
   
     // Find the row index with the matching costume ID
-    const rowIndex = rows.findIndex(row => row[0] === costumeId);
+    const rowIndex = rows.findIndex(row => row[8] === costumeId);
   
     if (rowIndex !== -1) {
       // Set the entire row to blank
       await sheets.spreadsheets.values.update({
-        spreadsheetId: sheetId,
-        range: `Costumes!A${rowIndex + 1}:AE${rowIndex + 1}`, // Replace with the actual sheet name or range
+        spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
+        range: `Costumes!A${rowIndex + 1}:AE${rowIndex + 1}`,
         valueInputOption: 'RAW',
         resource: { values: [[]] },
       });
@@ -128,6 +126,7 @@ app.delete('/costumes/:id', async (req, res) => {
     res.sendStatus(500);
   }
 });
+
 
 
 // about page
@@ -174,52 +173,9 @@ async function getCostumeById(id, auth) {
   return costume;
 }
 
-app.post('/costumes/:id', async function(req, res) {
-  const id = req.params.id;
-  const auth = await authorize();
-  const sheets = google.sheets({ version: 'v4', auth });
 
-  const index = await getCostumeIndexById(id);
 
-  if (index !== -1) {
-    await sheets.spreadsheets.values.batchUpdate({
-      spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-      resource: {
-        data: [
-          {
-            range: `Costumes!A${index}:AE${index}`,
-            values: [['']],
-            majorDimension: 'ROWS'
-          }
-        ],
-        valueInputOption: 'USER_ENTERED'
-      }
-    });
-  }
 
-  res.redirect('/costumes');
-});
-
-async function getCostumeIndexById(id) {
-  const auth = await authorize();
-  const sheets = google.sheets({ version: 'v4', auth });
-
-  const response = await sheets.spreadsheets.values.get({
-    spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-    range: 'Costumes!A1:AE9999'
-  });
-
-  const rows = response.data.values || [];
-
-  for (let i = 0; i < rows.length; i++) {
-    const row = rows[i];
-    if (row[8] === id) {
-      return i + 1;
-    }
-  }
-
-  return -1; 
-}
 
 //loading item cards for costumes
 // app.get('/costumes/:id', async function(req, res){
