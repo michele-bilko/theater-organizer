@@ -285,7 +285,8 @@ app.get('/props', async function(req, res){
 
 app.get('/extra', function(req, res){
   res.render('pages/extra', {
-    user: req.oidc.user
+    user: req.oidc.user,
+    allowedEmails: allowedEmails
   });
 });
 
