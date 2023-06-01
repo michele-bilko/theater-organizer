@@ -165,7 +165,8 @@ app.get('/about', function(req, res) {
   res.render('pages/about', {
     creators: creators,
     tagline: tagline,
-    user: req.oidc.user
+    user: req.oidc.user,
+    allowedEmails: allowedEmails
   });
 });         
 
