@@ -396,7 +396,7 @@ async function loadCostumeData(auth) {
   const sheets = google.sheets({ version: 'v4', auth });
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-    range: 'Costumes',
+    range: 'Costumes!A2:AE',
   });
   const rows = res.data.values;
 
