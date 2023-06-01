@@ -180,7 +180,8 @@ app.get('/costumes', async function(req, res){
   res.render('pages/costumes', {
     user: req.oidc.user,
     rows: rows,
-    costume: costume
+    costume: costume,
+    allowedEmails: allowedEmails
   });
 });
 
