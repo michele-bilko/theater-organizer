@@ -296,7 +296,7 @@ app.get('/formsubmit', function(req, res){
 });
 
 app.get('/rent', function(req, res){
-  res.render('pages/rent', {user: req.oidc.user});
+  res.render('pages/rent', {user: req.oidc.user, allowedEmails: allowedEmails});
 });
 
 app.get('/costume-expand', function(req, res){
