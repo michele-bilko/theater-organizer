@@ -13,15 +13,15 @@
             <li class="nav-item d-none d-lg-block">
               <a class="nav-link"  href="/costumes">Costumes</a>
             </li>
-            <li class="nav-item d-none d-lg-block">
-              <a class="nav-link" href="/props">Props</a>
-            </li>
+           
             <li class="nav-item d-none d-lg-block">
               <a class="nav-link" href="/about">About</a>
             </li>
+            <% if (user && user.email && allowedEmails.includes(user.email)) { %>
             <li class="nav-item d-none d-lg-block">
               <a class="nav-link" href="/extra">Add Item</a>
             </li>
+            <% } %>
             <li class="nav-item dropdown d-lg-none">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDarkDropdownMenuLink" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Menu

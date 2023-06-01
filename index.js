@@ -12,6 +12,8 @@ const JwtStrategy = require('passport-jwt').Strategy;
 const ExtractJwt = require('passport-jwt').ExtractJwt;
 
 const { auth } = require('express-openid-connect');
+const { GoogleSpreadsheet } = require('google-spreadsheet');
+
 const methodOverride = require('method-override');
 
 app.use(methodOverride('_method'));
@@ -72,7 +74,8 @@ app.get('/', function(req, res) {
   res.render('pages/index', {
     tagline1: tagline1,
     tagline2: tagline2,
-    user: req.oidc.user
+    user: req.oidc.user,
+    allowedEmails: allowedEmails
   });
 
   
@@ -80,42 +83,63 @@ app.get('/', function(req, res) {
 });
 
 
-const credentials = require('/Users/alessandromartinez/Documents/GitHub/theater-organizer/credentials.json');
+const credentials = 'credentials.json';
 const sheetId = '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo';
 
 
-app.delete('/costumes/:costumeid', async (req, res) => {
+app.delete('/costumes/:costumeid', requiresAuth(), checkAdmin, async (req, res) => {
   const costumeId = req.params.costumeid;
   console.log(costumeId);
-  
+
+
   try {
     // Authenticate with Google Sheets API
     const auth = await authorize();
-  
+
     // Create Google Sheets API client
     const sheets = google.sheets({ version: 'v4', auth });
-  
+
     // Get all rows from the sheet
     const getRowsResponse = await sheets.spreadsheets.values.get({
       spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-      range: 'Costumes', 
+      range: 'Costumes',
     });
     const rows = getRowsResponse.data.values;
-  
+
     // Find the row index with the matching costume ID
     const rowIndex = rows.findIndex(row => row[8] === costumeId);
-  
+
     if (rowIndex !== -1) {
-      // Set the entire row to blank
-      await sheets.spreadsheets.values.update({
+      // Calculate the A1 notation range for the specific row
+      const range = `Costumes!A${rowIndex + 1}:AE${rowIndex + 1}`;
+
+      // Clear the values in the specific row
+      await sheets.spreadsheets.values.clear({
         spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-        range: `Costumes!A${rowIndex + 1}:AE${rowIndex + 1}`,
-        valueInputOption: 'RAW',
-        resource: { values: [[]] },
+        range,
       });
-  
+
+      await sheets.spreadsheets.batchUpdate({
+        spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
+        resource: {
+          requests: [
+            {
+              deleteDimension: {
+                range: {
+                  sheetId: 0,
+                  dimension: 'ROWS',
+                  startIndex: rowIndex,
+                  endIndex: rowIndex + 1,
+                },
+              },
+            },
+          ],
+        },
+      });
+
       // Successful deletion
-      res.sendStatus(200);
+      res.redirect('/costumes');
+
     } else {
       // Costume not found
       res.sendStatus(404);
@@ -164,7 +188,7 @@ app.get('/costumes/:id', async function(req, res) {
   const auth = await authorize();
   const id = req.params.id;
   const costume = await getCostumeById(id, auth);
-  res.render('pages/costume_detail', { costume: costume, user: req.oidc.user });
+  res.render('pages/costume_detail', { costume: costume, user: req.oidc.user, allowedEmails: allowedEmails });
 });
 
 async function getCostumeById(id, auth) {
@@ -172,6 +196,63 @@ async function getCostumeById(id, auth) {
   const costume = rows.find(row => row.id === id);
   return costume;
 }
+
+
+
+
+
+
+
+async function updateCostumeDetails(costumeId, updatedData) {
+  try {
+    // Load the credentials from a JSON file (client_secret.json) or specify them directly
+    const auth = new google.auth.GoogleAuth({
+      // Scopes needed for the Google Sheets API
+      scopes: ['https://www.googleapis.com/auth/spreadsheets'],
+    });
+    const authClient = await auth.getClient();
+
+    // ID of your Google Sheet
+    const spreadsheetId = '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo';
+    // Range in the sheet where the costume details are stored
+    const range = 'Costumes!A2:AE';
+
+    // Get the current data from the sheet
+    const response = await sheets.spreadsheets.values.get({
+      auth: authClient,
+      spreadsheetId,
+      range,
+    });
+    const rows = response.data.values || [];
+
+    // Find the row with the matching costume ID
+    const rowIndex = rows.findIndex(row => row[8] === costumeId);
+
+    if (rowIndex !== -1) {
+      // Update the row with the new data
+      rows[rowIndex] = updatedData;
+
+      // Prepare the request to update the sheet
+      const updateRequest = {
+        spreadsheetId,
+        range,
+        valueInputOption: 'USER_ENTERED',
+        resource: {
+          values: rows,
+        },
+      };
+
+      // Update the sheet with the updated data
+      await sheets.spreadsheets.values.update(updateRequest);
+      console.log('Costume details updated successfully!');
+    } else {
+      console.log('Costume ID not found!');
+    }
+  } catch (error) {
+    console.error('Error updating costume details:', error);
+  }
+}
+
 
 
 
@@ -312,43 +393,45 @@ async function getCostumeInfo(auth) {
 
 //loading costumes and props
 async function loadCostumeData(auth) {
-  const sheets = google.sheets({version: 'v4', auth});
+  const sheets = google.sheets({ version: 'v4', auth });
   const res = await sheets.spreadsheets.values.get({
     spreadsheetId: '1ITgw1CF55HWEFxTzyRVMamXU7OvZlmu-_7hSgaidDfo',
-    range: 'Costumes!A2:AE',
+    range: 'Costumes',
   });
   const rows = res.data.values;
 
-  const costumes = rows.map((row) => {
-    return {
-    costumeName: `${row[1]}`, 
-    isRented: `${row[2]}`, isRentable: `${row[3]}`, 
-    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`, costumeId: `${row[8]}`, costumeColor: `${row[10]}`, costumeLocation: `${row[11]}`, costumePattern: `${row[16]}`, costumeType: `${row[17]}`, costumeHem: `${row[18]}`, costumeChest: `${row[19]}`, costumeNeck: `${row[20]}`, costumeWaist: `${row[21]}`, costumeSleeve: `${row[22]}`, costumeInSeam: `${row[23]}`, costumeFabric: `${row[26]}`  // column A
-      // add more properties as needed
-    };
-  });
-
   if (!rows || rows.length === 0) {
     console.log('No data found.');
-    return;
+    return [];
   }
-  //return formatted rows;
 
+  const costumes = rows
+    .filter(row => row.some(cell => cell !== '')) // Filter out rows with all empty cells
+    .map(row => {
+      return {
+        costumeName: `${row[1]}`,
+        isRented: `${row[2]}`,
+        isRentable: `${row[3]}`,
+        costumeImage: `${row[4]}`,
+        costumeDescription: `${row[5]}`,
+        costumeTags: `${row[6]}`,
+        costumeSize: `${row[7]}`,
+        costumeId: `${row[8]}`,
+        costumeColor: `${row[10]}`,
+        costumeLocation: `${row[11]}`,
+        costumePattern: `${row[16]}`,
+        costumeType: `${row[17]}`,
+        costumeHem: `${row[18]}`,
+        costumeChest: `${row[19]}`,
+        costumeNeck: `${row[20]}`,
+        costumeWaist: `${row[21]}`,
+        costumeSleeve: `${row[22]}`,
+        costumeInSeam: `${row[23]}`,
+        costumeFabric: `${row[26]}`,
+      };
+    });
 
-/**
- * FOR ADDING PAGES/SPECIFYING ROWS OF COSTUMES
- * 
- */
-
-  var costumeRows = [];
-  var itemCount = 0;
-  rows.forEach((row) => {
-    itemCount++,
-    costumeRows.push({costumeNumber: itemCount, costumeName: `${row[1]}`, 
-    isRented: `${row[2]}`, isRentable: `${row[3]}`, 
-    costumeImage: `${row[4]}`, costumeDescription: `${row[5]}`, costumeTags: `${row[6]}`, costumeSize: `${row[7]}`, costumeId: `${row[8]}`, costumeColor: `${row[10]}`, costumeLocation: `${row[11]}`, costumePattern: `${row[16]}`, costumeType: `${row[17]}`, costumeHem: `${row[18]}`, costumeChest: `${row[19]}`, costumeNeck: `${row[20]}`, costumeWaist: `${row[21]}`, costumeSleeve: `${row[22]}`, costumeInSeam: `${row[23]}`, costumeFabric: `${row[26]}`});
-  });
-  return costumeRows;
+  return costumes;
 }
 
 async function loadPropData(auth) {
